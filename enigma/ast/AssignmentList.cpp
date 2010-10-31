@@ -41,13 +41,13 @@ AssignmentList::AssignmentList(QList<Node*>& list) :
 
 AssignmentList *AssignmentList::clone() const
 {
-	QList<Node*> copy;
-	for (int i = 0; i < m_list.count(); ++i)
-	{
-		copy << m_list[i]->clone();
-	}
+    QList<Node*> copy;
+    for (int i = 0; i < m_list.count(); ++i)
+    {
+        copy << m_list[i]->clone();
+    }
 
-	return new AssignmentList(copy);
+    return new AssignmentList(copy);
 }
 
 void AssignmentList::accept(visitors::Visitor& visitor) const
@@ -57,27 +57,27 @@ void AssignmentList::accept(visitors::Visitor& visitor) const
 
 const Value* AssignmentList::operator[](const QString& key) const
 {
-	for (int i = 0; i < count(); ++i)
-	{
-		const Assignment& node(at(i));
+    for (int i = 0; i < count(); ++i)
+    {
+        const Assignment& node(at(i));
 
-		if (node.left().token().toString() == key)
-		{
-			return &node.right();
-		}
-	}
+        if (node.left().token().toString() == key)
+        {
+            return &node.right();
+        }
+    }
 
-	return nullptr;
+    return NULL;
 }
 
 const Assignment& AssignmentList::at(int i) const
 {
-	return static_cast<const Assignment&>(List::at(i));
+    return static_cast<const Assignment&>(List::at(i));
 }
 
 Assignment& AssignmentList::at(int i)
 {
-	return static_cast<Assignment&>(List::at(i));
+    return static_cast<Assignment&>(List::at(i));
 }
 
 } // namespace ast

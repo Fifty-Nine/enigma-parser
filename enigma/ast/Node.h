@@ -45,11 +45,11 @@ class Node : boost::noncopyable
 public:
     virtual ~Node();
 
-	const Node* parent() const { return m_parent; }
-	Node *parent() { return m_parent; }
-	void setParent(Node *parent) { m_parent = parent; }
-	int parentIdx() const { return m_parent_idx; }
-	void setParentIdx(int idx) { m_parent_idx = idx; }
+    const Node* parent() const { return m_parent; }
+    Node *parent() { return m_parent; }
+    void setParent(Node *parent) { m_parent = parent; }
+    int parentIdx() const { return m_parent_idx; }
+    void setParentIdx(int idx) { m_parent_idx = idx; }
 
     /*! Get the type of the node. */
     NodeType type() const { return m_type; }
@@ -61,22 +61,22 @@ public:
     /*! Accept the given visitor, calling the appropriate Visit function. */
     virtual void accept(visitors::Visitor& visitor) const = 0;
 
-	virtual int count() const { return 0; }
-	virtual const Node& at(int idx) const;
-	virtual Node& at(int idx);
+    virtual int count() const { return 0; }
+    virtual const Node& at(int idx) const;
+    virtual Node& at(int idx);
 
-	inline const Node& operator[](int idx) const { return at(idx); }
-	inline Node& operator[](int idx) { return at(idx); }
+    inline const Node& operator[](int idx) const { return at(idx); }
+    inline Node& operator[](int idx) { return at(idx); }
 
 
 protected:
     Node(NodeType type) : 
-		m_type(type), m_parent(nullptr), m_parent_idx(-1) { }
+        m_type(type), m_parent(NULL), m_parent_idx(-1) { }
 
 private:
     const NodeType m_type;
-	Node *m_parent;
-	int m_parent_idx;
+    Node *m_parent;
+    int m_parent_idx;
 };
 
 class Value : public Node

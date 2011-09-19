@@ -3,11 +3,13 @@ HEADERS +=\
     enigma/Lexer.h\
     enigma/Location.h\ 
     enigma/Parser.h \
+    enigma/FileReader.h \
 
 SOURCES +=\
     enigma/Date.cpp \
     enigma/Lexer.cpp \
     enigma/Parser.cpp \
+    enigma/FileReader.cpp \
 
 include( exceptions/exceptions.pri )
 include( tokens/tokens.pri )

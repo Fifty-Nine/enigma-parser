@@ -1,5 +1,5 @@
 TEMPLATE = lib
-CONFIG += qt console staticlib
+CONFIG += qt staticlib
 
 include( enigma/enigma.pri )
 
@@ -7,15 +7,15 @@ unix {
     QMAKE_CXXFLAGS += -std=gnu++0x
     debug { 
         OBJECTS_DIR=build/debug
-        MOCS_DIR=build/debug
-        UICS_DIR=build/debug
-        TARGET=build/debug/libenigma.a
+        MOC_DIR=build/debug
+        UI_DIR=build/debug
+        DESTDIR=build/debug
     }
     release { 
         OBJECTS_DIR=build/release
-        MOCS_DIR=build/release
-        UICS_DIR=build/release
-        TARGET=build/release/libenigma.a
+        MOC_DIR=build/release
+        UI_DIR=build/release
+        DESTDIR=build/release
     }
 }
 

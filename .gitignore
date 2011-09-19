@@ -11,3 +11,6 @@
 *.ilk
 *.opensdf
 GeneratedFiles/*
+build/*
+Makefile
+cscope.out

@@ -71,6 +71,9 @@
    <property name="text">
     <string>&amp;Close File</string>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

@@ -88,12 +88,14 @@ void AstViewer::on_actionCloseFile_activated()
 {
     d->model.setFile(NULL);
     d->tree.reset(NULL);
+    d->ui->actionCloseFile->setEnabled(false);
 }
 
 void AstViewer::fileSelected(const QString& filename)
 {
     d->model.setFile(NULL);
     d->tree.reset(NULL);
+    d->ui->actionCloseFile->setEnabled(false);
     d->watcher.setFuture(QtConcurrent::run(&Data::readFile, d.get(), filename));
 }
 
@@ -102,4 +104,5 @@ void AstViewer::fileLoaded()
     AssignmentList* tree = d->watcher.result();
     d->model.setFile(tree);
     d->tree.reset(tree);
+    d->ui->actionCloseFile->setEnabled(true);
 }

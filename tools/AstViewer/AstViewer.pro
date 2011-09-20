@@ -29,7 +29,7 @@ SOURCES += \
     main.cpp \
 
 LIBS += -lenigma
-debug:LIBS += -L../../build/debug
-release:LIBS += -L../../build/release
+debug:LIBS += -L../../enigma/build/debug
+release:LIBS += -L../../enigma/build/release
 
 INCLUDEPATH += ../../

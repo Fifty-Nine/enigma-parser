@@ -34,12 +34,12 @@ FORMS += \
 HEADERS += \
     AstModel.h\
     AstViewer.h\
-    NodeToString.h\
+    NodeUtils.h\
 
 SOURCES += \
     AstModel.cpp \
     AstViewer.cpp \
-    NodeToString.cpp \
+    NodeUtils.cpp\
     main.cpp \
 
 LIBS += -lenigma

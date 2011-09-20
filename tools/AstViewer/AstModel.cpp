@@ -1,7 +1,7 @@
 #include "AstModel.h"
 
 #include "enigma/ast/Node.h"
-#include "NodeToString.h"
+#include "NodeUtils.h"
 
 using namespace enigma;
 

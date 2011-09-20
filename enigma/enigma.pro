@@ -8,16 +8,16 @@ exists( Overrides.pri ) {
 unix { 
     QMAKE_CXXFLAGS += -std=gnu++0x
     debug { 
-        OBJECTS_DIR=build/debug
-        MOC_DIR=build/debug
-        UI_DIR=build/debug
-        DESTDIR=build/debug
+        OBJECTS_DIR=debug
+        MOC_DIR=debug
+        UI_DIR=debug
+        DESTDIR=debug
     }
     release { 
-        OBJECTS_DIR=build/release
-        MOC_DIR=build/release
-        UI_DIR=build/release
-        DESTDIR=build/release
+        OBJECTS_DIR=release
+        MOC_DIR=release
+        UI_DIR=release
+        DESTDIR=release
     }
 }
 

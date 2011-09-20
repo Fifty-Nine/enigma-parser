@@ -1,17 +1,19 @@
+include( Overrides.pri )
+
 TEMPLATE = app
 
 unix { 
     QMAKE_CXXFLAGS += -std=gnu++0x
     debug { 
-        OBJECTS_DIR=build/debug
-        MOC_DIR=build/debug
-        UI_DIR=build/debug
+        OBJECTS_DIR=debug
+        MOC_DIR=debug
+        UI_DIR=debug
         TARGET=AstViewer-debug
     }
     release { 
-        OBJECTS_DIR=build/release
-        MOC_DIR=build/release
-        UI_DIR=build/release
+        OBJECTS_DIR=release
+        MOC_DIR=release
+        UI_DIR=release
         TARGET=AstViewer-release
     }
 }
@@ -28,8 +30,8 @@ SOURCES += \
     AstViewer.cpp \
     main.cpp \
 
+debug:LIBS += -L$$PWD/../../enigma/debug
+release:LIBS += -L$$PWD/../../enigma/release
 LIBS += -lenigma
-debug:LIBS += -L../../enigma/build/debug
-release:LIBS += -L../../enigma/build/release
 
 INCLUDEPATH += ../../

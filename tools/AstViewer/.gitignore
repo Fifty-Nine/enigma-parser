@@ -1,4 +1,7 @@
 *.vcxproj
-build/*
+debug/*
+release/*
+GeneratedFiles/*
 AstViewer-debug
 AstViewer-release
+Overrides.pri

@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>583</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -44,6 +44,7 @@
      <string>File</string>
     </property>
     <addaction name="actionOpen"/>
+    <addaction name="actionCloseFile"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -66,11 +67,14 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
+  <action name="actionCloseFile">
+   <property name="text">
+    <string>&amp;Close File</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="AstViewer.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>actionExit</sender>

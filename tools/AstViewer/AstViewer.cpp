@@ -84,9 +84,16 @@ void AstViewer::on_actionOpen_activated()
     d->dialog.show();
 }
 
+void AstViewer::on_actionCloseFile_activated()
+{
+    d->model.setFile(NULL);
+    d->tree.reset(NULL);
+}
+
 void AstViewer::fileSelected(const QString& filename)
 {
     d->model.setFile(NULL);
+    d->tree.reset(NULL);
     d->watcher.setFuture(QtConcurrent::run(&Data::readFile, d.get(), filename));
 }
 

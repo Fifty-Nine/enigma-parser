@@ -1,4 +1,6 @@
-include( Overrides.pri )
+exists( Overrides.pri ) { 
+    include( Overrides.pri )
+}
 
 TEMPLATE = app
 

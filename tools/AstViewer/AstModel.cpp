@@ -15,10 +15,10 @@ namespace
 class DisplayData : public visitors::Visitor
 {
 public:
-    DisplayData(const ast::Node& node, int column_) : 
+    DisplayData(const ast::Node *node, int column_) :
         column(column_) 
     { 
-        node.accept(*this);
+        node->accept(*this);
     }
 
     void visit(const ast::Leaf& node) 
@@ -36,7 +36,7 @@ public:
 
         QString format = "%1 = %2";
         format = format.arg(node.left().token().toString());
-        format = format.arg(DisplayData(node.right(), 1));
+        format = format.arg(DisplayData(&node.right(), 1));
 
         data = format;
     }
@@ -57,11 +57,6 @@ public:
     int column;
     QString data;
 };
-
-ast::Node& GetNode(const QModelIndex& idx)
-{
-    return *static_cast<ast::Node*>(idx.internalPointer());
-}
 
 }
 
@@ -91,21 +86,24 @@ QModelIndex AstModel::index(
         return QModelIndex();
     }
 
-    void *ip = parent.isValid() ? 
-        (void*)&GetNode(parent).at(row) : (void*)&m_root->at(row);
-    return createIndex(row, column, ip);
+    return createIndex(row, column, (void*)&GetNode(parent)->at(row));
 }
 
 QModelIndex AstModel::parent(const QModelIndex& idx) const
 {
     if (!idx.isValid()) return QModelIndex();
-    return index(GetNode(idx).parent(), idx.column());
+
+    ast::Node *parent = GetNode(idx)->parent();
+
+    if (parent == m_root) return QModelIndex();
+
+    return createIndex(parent->parentIdx(), 0, parent);
 }
 
 int AstModel::rowCount(const QModelIndex& parent) const
 {
     if (!m_root) return 0;
-    return parent.isValid() ? GetNode(parent).count() : m_root->count();
+    return parent.isValid() ? GetNode(parent)->count() : m_root->count();
 }
 
 int AstModel::columnCount(const QModelIndex&) const
@@ -140,9 +138,9 @@ QVariant AstModel::headerData(
     return QVariant();
 }
 
-QModelIndex AstModel::index(const enigma::ast::Node *node, int column) const
+ast::Node* AstModel::GetNode(const QModelIndex& idx) const
 {
-    if (!node || (node == m_root)) return QModelIndex();
-
-    return index(node->parentIdx(), column, index(node->parent(), column));
+    return idx.isValid() ?
+        (ast::Node*)idx.internalPointer() : m_root;
 }
+

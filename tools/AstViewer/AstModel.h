@@ -29,6 +29,8 @@ public:
         Qt::Orientation orientation, int role=Qt::DisplayRole) const;
 
 private:
+    QVariant displayData( const QModelIndex& idx ) const;
+
     enigma::ast::Node *GetNode(const QModelIndex& idx) const;
     enigma::ast::Node *m_root;
 };

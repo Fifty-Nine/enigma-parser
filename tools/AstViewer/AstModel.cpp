@@ -1,64 +1,9 @@
 #include "AstModel.h"
 
-#include <QList>
-
-#include "enigma/ast/Leaf.h"
-#include "enigma/ast/Assignment.h"
-#include "enigma/ast/AssignmentList.h"
-#include "enigma/ast/ValueList.h"
-#include "enigma/tokens/Token.h"
-#include "enigma/visitors/Visitor.h"
+#include "enigma/ast/Node.h"
+#include "NodeToString.h"
 
 using namespace enigma;
-namespace
-{
-class DisplayData : public visitors::Visitor
-{
-public:
-    DisplayData(const ast::Node *node, int column_) :
-        column(column_) 
-    { 
-        node->accept(*this);
-    }
-
-    void visit(const ast::Leaf& node) 
-    {
-        if (column == 0) data = node.type().toString();
-        else if (column == 1) data = node.token().toString();
-    }
-    void visit(const ast::Assignment& node) 
-    { 
-        if (column == 0) 
-        {
-            data = node.type().toString();
-            return;
-        }
-
-        QString format = "%1 = %2";
-        format = format.arg(node.left().token().toString());
-        format = format.arg(DisplayData(&node.right(), 1));
-
-        data = format;
-    }
-    void visit(const ast::AssignmentList& node) 
-    { 
-        if (column == 0) data = node.type().toString();
-        else if (column == 1) data = "{...}";
-    }
-    void visit(const ast::ValueList& node) 
-    {
-        if (column == 0) data = node.type().toString();
-        else if (column == 1) data = "{...}";
-    }
-
-    operator QVariant() const { return data; }
-    operator QString() const { return data; }
-
-    int column;
-    QString data;
-};
-
-}
 
 AstModel::AstModel(QObject *parent)
     : QAbstractItemModel(parent), m_root(NULL)
@@ -113,12 +58,17 @@ int AstModel::columnCount(const QModelIndex&) const
 
 QVariant AstModel::data(const QModelIndex& idx, int role) const
 {
-    if (!idx.isValid() || role != Qt::DisplayRole)
+    if (!idx.isValid())
     {
         return QVariant();
     }
 
-    return DisplayData(GetNode(idx), idx.column());
+    if ( role == Qt::DisplayRole)
+    {
+        return displayData(idx);
+    }
+
+    return QVariant();
 }
 
 QVariant AstModel::headerData(
@@ -136,6 +86,19 @@ QVariant AstModel::headerData(
     }
 
     return QVariant();
+}
+
+QVariant AstModel::displayData(const QModelIndex& idx) const
+{
+    ast::Node& node( *GetNode(idx) );
+    if (idx.column() == 0)
+    {
+        return node.type().toString();
+    }
+    else
+    {
+        return toString(node);
+    }
 }
 
 ast::Node* AstModel::GetNode(const QModelIndex& idx) const

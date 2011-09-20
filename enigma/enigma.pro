@@ -1,25 +1,27 @@
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += staticlib 
 
 exists( Overrides.pri ) { 
     include( Overrides.pri )
 }
 
-unix { 
-    QMAKE_CXXFLAGS += -std=gnu++0x
-    debug { 
-        OBJECTS_DIR=debug
-        MOC_DIR=debug
-        UI_DIR=debug
-        DESTDIR=debug
-    }
-    release { 
-        OBJECTS_DIR=release
-        MOC_DIR=release
-        UI_DIR=release
-        DESTDIR=release
-    }
+include( ../Common.pri )
+
+unix:QMAKE_CXXFLAGS += -std=gnu++0x
+
+CONFIG(debug, debug|release) { 
+    OBJECTS_DIR=debug
+    MOC_DIR=debug
+    UI_DIR=debug
+    DESTDIR=debug
 }
+CONFIG(release, debug|release) { 
+    OBJECTS_DIR=release
+    MOC_DIR=release
+    UI_DIR=release
+    DESTDIR=release
+}
+
 
 INCLUDEPATH += ..
 

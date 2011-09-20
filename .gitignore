@@ -12,5 +12,5 @@
 *.opensdf
 GeneratedFiles/*
 build/*
-Makefile
+Makefile*
 cscope.out

@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-CONFIG += ordered staticlib
+CONFIG += ordered staticlib 
 
 SUBDIRS += \
     enigma \

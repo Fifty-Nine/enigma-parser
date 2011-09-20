@@ -188,8 +188,9 @@ public:
     }
 
 	std::unique_ptr<ast::Assignment> maybeParseAssignment()
-	{
-		return next() ? parseAssignment() : std::unique_ptr<ast::Assignment>();
+	{ 
+		return (next() && (next()->type() != TokenType::RightBrace)) ? 
+            parseAssignment() : std::unique_ptr<ast::Assignment>();
 	}
 
     std::unique_ptr<ast::Leaf> parseLeaf()

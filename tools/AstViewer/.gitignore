@@ -1,2 +1,4 @@
 *.vcxproj
 build/*
+AstViewer-debug
+AstViewer-release

@@ -6,13 +6,13 @@ unix {
         OBJECTS_DIR=build/debug
         MOC_DIR=build/debug
         UI_DIR=build/debug
-        DESTDIR=build/debug
+        TARGET=AstViewer-debug
     }
     release { 
         OBJECTS_DIR=build/release
         MOC_DIR=build/release
         UI_DIR=build/release
-        DESTDIR=build/release
+        TARGET=AstViewer-release
     }
 }
 

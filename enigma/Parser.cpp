@@ -11,8 +11,6 @@
 #include "enigma/ast/Leaf.h"
 #include "enigma/tokens/Token.h"
 #include "enigma/exceptions/ExpectedInputException.h"
-#include "enigma/util/SetUtils.h"
-
 
 using namespace enigma::tokens;
 

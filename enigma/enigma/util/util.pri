@@ -1,5 +1,5 @@
 HEADERS += \
-    util/Enumeration.h \
+    enigma/util/Enumeration.h \
 
 SOURCES += \
 

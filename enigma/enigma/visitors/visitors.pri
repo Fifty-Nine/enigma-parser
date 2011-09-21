@@ -1,7 +1,7 @@
 HEADERS += \
-    visitors/Visitor.h \
-    visitors/PrettyPrinter.h \
+    enigma/visitors/Visitor.h \
+    enigma/visitors/PrettyPrinter.h \
 
 SOURCES += \
-    visitors/PrettyPrinter.cpp \
+    enigma/visitors/PrettyPrinter.cpp \
     

@@ -1,16 +1,16 @@
 HEADERS += \
-    ast/Node.h \
-    ast/Leaf.h \
-    ast/Assignment.h \
-    ast/List.h \
-    ast/AssignmentList.h \
-    ast/ValueList.h \
+    enigma/ast/Node.h \
+    enigma/ast/Leaf.h \
+    enigma/ast/Assignment.h \
+    enigma/ast/List.h \
+    enigma/ast/AssignmentList.h \
+    enigma/ast/ValueList.h \
 
 SOURCES += \
-    ast/Node.cpp \
-    ast/Leaf.cpp \
-    ast/Assignment.cpp \
-    ast/List.cpp \
-    ast/AssignmentList.cpp \
-    ast/ValueList.cpp \
+    enigma/ast/Node.cpp \
+    enigma/ast/Leaf.cpp \
+    enigma/ast/Assignment.cpp \
+    enigma/ast/List.cpp \
+    enigma/ast/AssignmentList.cpp \
+    enigma/ast/ValueList.cpp \
 

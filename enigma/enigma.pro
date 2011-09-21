@@ -4,19 +4,20 @@ CONFIG += staticlib
 include( ../Common.pri )
 
 INCLUDEPATH += ..
+VPATH = ..
 
 HEADERS +=\
-    Date.h \
-    Lexer.h \
-    Location.h \ 
-    Parser.h \
-    FileReader.h \
+    enigma/Date.h \
+    enigma/Lexer.h \
+    enigma/Location.h \ 
+    enigma/Parser.h \
+    enigma/FileReader.h \
 
 SOURCES +=\
-    Date.cpp \
-    Lexer.cpp \
-    Parser.cpp \
-    FileReader.cpp \
+    enigma/Date.cpp \
+    enigma/Lexer.cpp \
+    enigma/Parser.cpp \
+    enigma/FileReader.cpp \
 
 include( exceptions/exceptions.pri )
 include( tokens/tokens.pri )

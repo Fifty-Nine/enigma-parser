@@ -1,9 +1,9 @@
 HEADERS += \
-    exceptions/Exception.h \
-    exceptions/ExpectedInputException.h \
-    exceptions/UnmatchedInputException.h \
+    enigma/exceptions/Exception.h \
+    enigma/exceptions/ExpectedInputException.h \
+    enigma/exceptions/UnmatchedInputException.h \
 
 SOURCES += \
-    exceptions/Exception.cpp \
-    exceptions/ExpectedInputException.cpp \
-    exceptions/UnmatchedInputException.cpp \
+    enigma/exceptions/Exception.cpp \
+    enigma/exceptions/ExpectedInputException.cpp \
+    enigma/exceptions/UnmatchedInputException.cpp \

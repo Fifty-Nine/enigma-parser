@@ -1,4 +1,4 @@
-#include "Parser.h"
+#include "enigma/Parser.h"
 
 #include <stack>
 #include <QSet>
@@ -138,7 +138,7 @@ public:
         {
             nodes << parseAssignment().release();
         }
-		
+        
         return std::unique_ptr<ast::AssignmentList>(
             new ast::AssignmentList(nodes));
     }
@@ -167,12 +167,12 @@ public:
 
     std::unique_ptr<ast::Assignment> parseAssignment()
     {
-		QSet<TokenType> expected;
-		expected << TokenType::Identifier;
-		expected << TokenType::Tag;
-		expected << TokenType::Integer;
-		expected << TokenType::Date;
-		expected << TokenType::String;
+        QSet<TokenType> expected;
+        expected << TokenType::Identifier;
+        expected << TokenType::Tag;
+        expected << TokenType::Integer;
+        expected << TokenType::Date;
+        expected << TokenType::String;
         expect(expected);
 
         std::unique_ptr<ast::Leaf> left(parseLeaf());
@@ -185,22 +185,22 @@ public:
             new ast::Assignment(std::move(left), std::move(right)));
     }
 
-	std::unique_ptr<ast::Assignment> maybeParseAssignment()
-	{ 
-		return (next() && (next()->type() != TokenType::RightBrace)) ? 
+    std::unique_ptr<ast::Assignment> maybeParseAssignment()
+    { 
+        return (next() && (next()->type() != TokenType::RightBrace)) ? 
             parseAssignment() : std::unique_ptr<ast::Assignment>();
-	}
+    }
 
     std::unique_ptr<ast::Leaf> parseLeaf()
     {
-		QSet<TokenType> expected;
-		expected << TokenType::Boolean;
-		expected << TokenType::Date;
-		expected << TokenType::Decimal;
-		expected << TokenType::Identifier;
-		expected << TokenType::Integer;
-		expected << TokenType::String;
-		expected << TokenType::Tag;
+        QSet<TokenType> expected;
+        expected << TokenType::Boolean;
+        expected << TokenType::Date;
+        expected << TokenType::Decimal;
+        expected << TokenType::Identifier;
+        expected << TokenType::Integer;
+        expected << TokenType::String;
+        expected << TokenType::Tag;
         TokenPtr tok = consume(expected);
         return std::unique_ptr<ast::Leaf>(new ast::Leaf(std::move(tok)));
     }
@@ -221,7 +221,7 @@ Parser::~Parser()
 
 Location Parser::currentPos() const
 {
-	return d->m_lexer->currentPos();
+    return d->m_lexer->currentPos();
 }
 
 std::unique_ptr<ast::AssignmentList> Parser::parse()
@@ -231,7 +231,7 @@ std::unique_ptr<ast::AssignmentList> Parser::parse()
 
 std::unique_ptr<ast::Assignment> Parser::parseOne()
 {
-	return d->maybeParseAssignment();
+    return d->maybeParseAssignment();
 }
 
 } // namespace enigma

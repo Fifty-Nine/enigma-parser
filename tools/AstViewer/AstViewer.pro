@@ -19,7 +19,7 @@ CONFIG(release, debug|release) {
 
 QMAKE_CLEAN += $$TARGET
 
-INCLUDEPATH += ../../
+INCLUDEPATH += ../../enigma
 
 FORMS += \
     AstViewer.ui \

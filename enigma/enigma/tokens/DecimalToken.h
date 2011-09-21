@@ -19,11 +19,11 @@ public:
     DecimalToken(double value, int precision, bool stringify);
 
     /*! Get the numeric value of the token. */
-    double value() const { return m_value; }
-	void setValue(double value) { m_value = value; }
+    virtual QVariant value() const { return m_value; }
+    void setValue(double value) { m_value = value; }
 
-	int precision() const { return m_precision; }
-	void setPrecision(int precision) { m_precision = precision; }
+    int precision() const { return m_precision; }
+    void setPrecision(int precision) { m_precision = precision; }
 
     virtual DecimalToken *clone() const;
     virtual QString toString() const;

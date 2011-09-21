@@ -4,6 +4,7 @@ include( ../../Common.pri )
 
 LIBS += -lenigma
 CONFIG(debug, debug|release) { 
+    DESTDIR=.
     TARGET=AstViewer-debug
     LIBS += -L../../enigma/debug
     win32:PRE_TARGETDEPS += ../../enigma/debug/enigma.lib
@@ -11,6 +12,7 @@ CONFIG(debug, debug|release) {
 }
 
 CONFIG(release, debug|release) { 
+    DESTDIR=.
     TARGET=AstViewer-release
     LIBS += -L../../enigma/release
     win32:PRE_TARGETDEPS += ../../enigma/release/enigma.lib

@@ -63,9 +63,10 @@ QVariant AstModel::data(const QModelIndex& idx, int role) const
         return QVariant();
     }
 
-    if ( role == Qt::DisplayRole)
+    switch (role)
     {
-        return displayData(idx);
+    case Qt::DisplayRole: return displayData(idx);
+    case Qt::CheckStateRole: return checkStateData(idx);
     }
 
     return QVariant();
@@ -99,6 +100,19 @@ QVariant AstModel::displayData(const QModelIndex& idx) const
     {
         return toString(node);
     }
+}
+
+QVariant AstModel::checkStateData(const QModelIndex& idx) const
+{
+    if (idx.column() != 1) return QVariant();
+
+    ast::Node& node( *GetNode(idx) );
+    
+    QVariant val = value(node);
+
+    if (val.type() != QVariant::Bool) return QVariant();
+
+    return val.toBool() ? Qt::Checked : Qt::Unchecked;
 }
 
 ast::Node* AstModel::GetNode(const QModelIndex& idx) const

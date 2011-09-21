@@ -21,7 +21,9 @@ public:
     /*! Get the date value of this token. 
      * \return The date. */
     Date date() const { return m_date; }
-	void setDate(const Date& date);
+    void setDate(const Date& date);
+
+    QVariant value() const { return m_date.toString(); }
 
     virtual DateToken *clone() const;
 

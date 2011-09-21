@@ -38,9 +38,34 @@ private:
 
     QString data;
 };
+
+class GetValue : private enigma::visitors::NullVisitor
+{
+public:
+    GetValue(const enigma::ast::Node& node)
+    {
+        node.accept(*this);
+    }
+
+    void visit(const enigma::ast::Leaf& node)
+    {
+        data = node.token().value();
+    }
+
+    operator QVariant() { return data; }
+
+private:
+    QVariant data;
+};
+
 } // namespace
 
 QString toString(const enigma::ast::Node& node)
 {
     return ToString(node);
+}
+
+QVariant value(const enigma::ast::Node& node)
+{
+    return GetValue(node);
 }

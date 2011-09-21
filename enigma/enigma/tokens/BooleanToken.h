@@ -17,8 +17,8 @@ public:
     BooleanToken(bool value, bool stringify);
 
     /*! Get the token's boolean value. */
-    bool value() const { return m_value; }
-	void setValue(bool value);
+    virtual QVariant value() const { return m_value; }
+    void setValue(bool value);
 
     virtual BooleanToken *clone() const;
 private:

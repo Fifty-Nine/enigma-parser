@@ -18,7 +18,7 @@ public:
     virtual StringToken *clone() const;
     virtual QString toString() const;
 
-	QString value() const { return m_value; }
+    QVariant value() const { return m_value; }
 
 protected:
     /*! Construct a string token with the given parameters. 
@@ -28,7 +28,7 @@ protected:
      *                      within quotation marks. */
     StringToken(TokenType type, const QString& value, bool stringify);
 
-	void setValue(const QString& value) { m_value = value; }
+    void setValue(const QString& value) { m_value = value; }
 
     QString m_value;
     bool m_stringify;

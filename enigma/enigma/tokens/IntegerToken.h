@@ -18,8 +18,8 @@ public:
     IntegerToken(long long value, bool stringify);
 
     /*! Get the token's integral value. */
-    long long value() const { return m_value; }
-	void setValue(long long value) { m_value = value; }
+    virtual QVariant value() const { return m_value; }
+    void setValue(long long value) { m_value = value; }
 
     virtual QString toString() const;
     virtual IntegerToken *clone() const;

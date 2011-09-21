@@ -30,6 +30,7 @@ public:
 
 private:
     QVariant displayData( const QModelIndex& idx ) const;
+    QVariant checkStateData( const QModelIndex& idx ) const;
 
     enigma::ast::Node *GetNode(const QModelIndex& idx) const;
     enigma::ast::Node *m_root;

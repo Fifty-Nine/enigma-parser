@@ -4,6 +4,7 @@
 
 #include <boost/noncopyable.hpp>
 #include <QString>
+#include <QVariant>
 
 #include "enigma/util/Enumeration.h"
 
@@ -66,6 +67,9 @@ public:
     /*! Convert the token to a string.
      * \return A human-readable representation of the token. */
     virtual QString toString() const = 0;
+
+    /*! Get the value of the token, if applicable. */
+    virtual QVariant value() const { return QVariant(); }
 
 protected:
     Token(TokenType type) : 

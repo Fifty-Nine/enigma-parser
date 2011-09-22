@@ -24,6 +24,7 @@ public:
     void setDate(const Date& date);
 
     QVariant value() const { return m_date.toString(); }
+    virtual bool setValue(const QVariant& value);
 
     virtual DateToken *clone() const;
 

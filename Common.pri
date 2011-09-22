@@ -1,6 +1,6 @@
 CONFIG += debug_and_release build_all
 
-unix:QMAKE_CXXFLAGS += -std=gnu++0x
+unix:QMAKE_CXXFLAGS += -std=gnu++0x -Wall -Werror
 
 CONFIG(debug, debug|release) { 
     OBJECTS_DIR=debug

@@ -11,6 +11,15 @@ IntegerToken::IntegerToken(long long value, bool stringify) :
 {
 }
 
+bool IntegerToken::setValue(const QVariant& value)
+{
+    if (!value.canConvert(QVariant::LongLong)) return false;
+
+    m_value = value.toLongLong();
+
+    return true;
+}
+
 QString IntegerToken::toString() const
 {
     QString format = m_stringify ? "\"%1\"" : "%1";

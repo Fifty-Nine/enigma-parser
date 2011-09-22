@@ -71,6 +71,10 @@ public:
     /*! Get the value of the token, if applicable. */
     virtual QVariant value() const { return QVariant(); }
 
+    /*! Set the value of the token, if applicable. 
+     *  \return True if the value was set. */
+    virtual bool setValue(const QVariant&) { return false; }
+
 protected:
     Token(TokenType type) : 
         m_type(type) { }

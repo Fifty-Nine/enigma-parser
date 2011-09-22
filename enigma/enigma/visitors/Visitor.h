@@ -19,6 +19,16 @@ class Visitor
 {
 public:
     virtual ~Visitor() { }
+    virtual void visit(ast::Leaf& node) = 0;
+    virtual void visit(ast::Assignment& node) = 0;
+    virtual void visit(ast::AssignmentList& node) = 0;
+    virtual void visit(ast::ValueList& node) = 0;
+};
+
+class ConstVisitor
+{
+public:
+    virtual ~ConstVisitor() { }
     virtual void visit(const ast::Leaf& node) = 0;
     virtual void visit(const ast::Assignment& node) = 0;
     virtual void visit(const ast::AssignmentList& node) = 0;
@@ -29,6 +39,15 @@ public:
  *  Useful for defining visitors that only handle 
  *  a subset of the possible node types. */
 class NullVisitor : public Visitor
+{
+public:
+    virtual void visit(ast::Leaf&) { }
+    virtual void visit(ast::Assignment&) { }
+    virtual void visit(ast::AssignmentList&) { }
+    virtual void visit(ast::ValueList&) { }
+};
+
+class NullConstVisitor : public ConstVisitor
 {
 public:
     virtual void visit(const ast::Leaf&) { }

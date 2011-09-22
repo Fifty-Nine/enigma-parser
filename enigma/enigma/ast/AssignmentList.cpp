@@ -50,7 +50,12 @@ AssignmentList *AssignmentList::clone() const
     return new AssignmentList(copy);
 }
 
-void AssignmentList::accept(visitors::Visitor& visitor) const
+void AssignmentList::accept(visitors::Visitor& visitor)
+{
+    visitor.visit(*this);
+}
+
+void AssignmentList::accept(visitors::ConstVisitor& visitor) const
 {
     visitor.visit(*this);
 }

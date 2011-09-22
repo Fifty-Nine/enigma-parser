@@ -11,7 +11,11 @@
 namespace enigma
 {
 
-namespace visitors { class Visitor; }
+namespace visitors 
+{ 
+class Visitor; 
+class ConstVisitor; 
+}
 
 namespace ast
 {
@@ -59,7 +63,8 @@ public:
     virtual Node *clone() const = 0;
 
     /*! Accept the given visitor, calling the appropriate Visit function. */
-    virtual void accept(visitors::Visitor& visitor) const = 0;
+    virtual void accept(visitors::Visitor& visitor) = 0;
+    virtual void accept(visitors::ConstVisitor& visitor) const = 0;
 
     virtual int count() const { return 0; }
     virtual const Node& at(int idx) const;

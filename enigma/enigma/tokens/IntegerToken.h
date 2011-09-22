@@ -19,6 +19,7 @@ public:
 
     /*! Get the token's integral value. */
     virtual QVariant value() const { return m_value; }
+    virtual bool setValue(const QVariant& value);
     void setValue(long long value) { m_value = value; }
 
     virtual QString toString() const;

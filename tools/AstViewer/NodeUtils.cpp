@@ -9,7 +9,7 @@
 
 namespace
 {
-class ToString : private enigma::visitors::NullVisitor
+class ToString : private enigma::visitors::NullConstVisitor
 {
 public:
     /*! Constructs a visitor for the given node. */
@@ -19,7 +19,7 @@ public:
         node.accept(*this);
     }
 
-    operator QString() { return data; }
+    operator QString() const { return data; }
 
 private:
     void visit(const enigma::ast::Leaf& node)
@@ -39,7 +39,7 @@ private:
     QString data;
 };
 
-class GetValue : private enigma::visitors::NullVisitor
+class GetValue : private enigma::visitors::NullConstVisitor
 {
 public:
     GetValue(const enigma::ast::Node& node)
@@ -47,15 +47,39 @@ public:
         node.accept(*this);
     }
 
+    operator QVariant() const { return data; }
+
+private:
     void visit(const enigma::ast::Leaf& node)
     {
         data = node.token().value();
     }
 
-    operator QVariant() { return data; }
+    QVariant data;
+};
+
+class SetValue : private enigma::visitors::NullVisitor
+{
+public:
+    SetValue(enigma::ast::Node& node, const QVariant& value_) : 
+        value(value_), result(false)
+    {
+        node.accept(*this);
+    }
+
+    operator bool() const
+    {
+        return result;
+    }
 
 private:
-    QVariant data;
+    void visit(enigma::ast::Leaf& node)
+    {
+        result = node.token().setValue(value);
+    }
+
+    QVariant value;
+    bool result;
 };
 
 } // namespace
@@ -68,4 +92,9 @@ QString toString(const enigma::ast::Node& node)
 QVariant value(const enigma::ast::Node& node)
 {
     return GetValue(node);
+}
+
+bool setValue(enigma::ast::Node& node, const QVariant& value)
+{
+    return SetValue(node, value);
 }

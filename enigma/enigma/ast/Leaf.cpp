@@ -31,7 +31,12 @@ Leaf *Leaf::clone() const
     return new Leaf(m_token->clone());
 }
 
-void Leaf::accept(visitors::Visitor& visitor) const
+void Leaf::accept(visitors::Visitor& visitor)
+{
+    visitor.visit(*this);
+}
+
+void Leaf::accept(visitors::ConstVisitor& visitor) const
 {
     visitor.visit(*this);
 }

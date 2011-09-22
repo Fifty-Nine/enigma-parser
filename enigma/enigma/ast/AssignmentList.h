@@ -19,14 +19,15 @@ public:
     AssignmentList(QList<Assignment*>&& list);
  
     virtual AssignmentList *clone() const;
-    virtual void accept(visitors::Visitor& visitor) const;
+    virtual void accept(visitors::Visitor& visitor);
+    virtual void accept(visitors::ConstVisitor& visitor) const;
 
-	const Value* operator[](const QString& key) const;
-	virtual const Assignment& at(int i) const;
-	virtual Assignment& at(int i);
-	
-	inline const Assignment& operator[](int i) const { return at(i); }
-	inline Assignment& operator[](int i) { return at(i); }
+    const Value* operator[](const QString& key) const;
+    virtual const Assignment& at(int i) const;
+    virtual Assignment& at(int i);
+    
+    inline const Assignment& operator[](int i) const { return at(i); }
+    inline Assignment& operator[](int i) { return at(i); }
 
 private:
     AssignmentList(QList<Node*>& list);

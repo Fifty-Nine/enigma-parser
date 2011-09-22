@@ -1,6 +1,7 @@
 #include "AstModel.h"
 
 #include "enigma/ast/Node.h"
+#include "enigma/ast/Leaf.h"
 #include "NodeUtils.h"
 
 using namespace enigma;
@@ -72,6 +73,13 @@ QVariant AstModel::data(const QModelIndex& idx, int role) const
     return QVariant();
 }
 
+bool AstModel::setData(const QModelIndex& idx, const QVariant& value, int role)
+{
+    if (role != Qt::EditRole) return false;
+
+    return setValue(*GetNode(idx), value);
+}
+
 QVariant AstModel::headerData(
     int section, Qt::Orientation orientation, int role) const
 {
@@ -87,6 +95,19 @@ QVariant AstModel::headerData(
     }
 
     return QVariant();
+}
+
+Qt::ItemFlags AstModel::flags(const QModelIndex& idx) const
+{
+    const ast::Leaf* leaf = dynamic_cast<const ast::Leaf*>( GetNode(idx) );
+
+    Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    if (leaf)
+    {
+        result |= Qt::ItemIsEditable;
+    }
+
+    return result;
 }
 
 QVariant AstModel::displayData(const QModelIndex& idx) const

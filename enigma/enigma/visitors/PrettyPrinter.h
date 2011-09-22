@@ -13,20 +13,20 @@ namespace enigma
 namespace visitors
 {
 
-class PrettyPrinter : public Visitor
+class PrettyPrinter : public ConstVisitor
 {
 public:
-	PrettyPrinter(std::unique_ptr<QIODevice> output);
-	virtual ~PrettyPrinter();
+    PrettyPrinter(std::unique_ptr<QIODevice> output);
+    virtual ~PrettyPrinter();
 
-	virtual void visit(const ast::Leaf& node);
-	virtual void visit(const ast::Assignment& node);
-	virtual void visit(const ast::ValueList& node);
-	virtual void visit(const ast::AssignmentList& node);
+    virtual void visit(const ast::Leaf& node);
+    virtual void visit(const ast::Assignment& node);
+    virtual void visit(const ast::ValueList& node);
+    virtual void visit(const ast::AssignmentList& node);
 
 private:
-	class Data;
-	std::unique_ptr<Data> d;
+    class Data;
+    std::unique_ptr<Data> d;
 };
 
 }

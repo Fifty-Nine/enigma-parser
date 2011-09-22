@@ -19,23 +19,24 @@ public:
     virtual ~Assignment();
 
     virtual Assignment *clone() const;
-    virtual void accept(visitors::Visitor& visitor) const;
+    virtual void accept(visitors::Visitor& visitor);
+    virtual void accept(visitors::ConstVisitor& visitor) const;
 
     const Leaf& left() const { return *m_left; }
-	Leaf& left() { return *m_left; }
+    Leaf& left() { return *m_left; }
     const Value& right() const { return *m_right; }
-	Value& right() { return *m_right; }
+    Value& right() { return *m_right; }
 
-	virtual int count() const { return 2; }
-	virtual const Value& at(int i) const;
-	virtual Value& at(int i); 
+    virtual int count() const { return 2; }
+    virtual const Value& at(int i) const;
+    virtual Value& at(int i); 
 
-	inline const Value& operator[](int i) const { return at(i); }
-	inline Value& operator[](int i) { return at(i); }
+    inline const Value& operator[](int i) const { return at(i); }
+    inline Value& operator[](int i) { return at(i); }
 
 private:
     Assignment(Leaf *left, Value *right);
-	void reparent();
+    void reparent();
 
     std::unique_ptr<Leaf> m_left;
     std::unique_ptr<Value> m_right;

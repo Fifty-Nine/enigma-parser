@@ -18,8 +18,17 @@ BooleanToken *BooleanToken::clone() const
 
 void BooleanToken::setValue(bool value)
 {
-	m_value = value;
-	StringToken::setValue(value ? "yes" : "no");
+    m_value = value;
+    StringToken::setValue(QString(value ? "yes" : "no"));
+}
+
+bool BooleanToken::setValue(const QVariant& value)
+{
+    if (!value.canConvert(QVariant::Bool)) return false;
+
+    m_value = value.toBool();
+
+    return true;
 }
 
 } // namespace tokens

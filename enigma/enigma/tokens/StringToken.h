@@ -19,6 +19,7 @@ public:
     virtual QString toString() const;
 
     QVariant value() const { return m_value; }
+    virtual bool setValue(const QVariant& value);
 
 protected:
     /*! Construct a string token with the given parameters. 

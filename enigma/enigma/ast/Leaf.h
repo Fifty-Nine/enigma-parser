@@ -26,8 +26,10 @@ public:
     virtual ~Leaf();
 
     virtual Leaf *clone() const;
-    virtual void accept(visitors::Visitor& visitor) const;
+    virtual void accept(visitors::Visitor& visitor);
+    virtual void accept(visitors::ConstVisitor& visitor) const;
 
+    tokens::Token& token() { return *m_token; }
     const tokens::Token& token() const { return *m_token; }
 
 private:

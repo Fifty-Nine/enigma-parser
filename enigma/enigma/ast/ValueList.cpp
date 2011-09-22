@@ -37,7 +37,7 @@ ValueList::ValueList(QList<Node*>& list) :
 
 ValueList *ValueList::clone() const
 {
-	QList<Node*> copy;
+    QList<Node*> copy;
     for (int i = 0; i < m_list.count(); ++i)
     {
         copy << m_list[i]->clone();
@@ -48,15 +48,20 @@ ValueList *ValueList::clone() const
 
 const Value& ValueList::at(int i) const
 {
-	return static_cast<const Value&>(List::at(i));
+    return static_cast<const Value&>(List::at(i));
 }
 
 Value& ValueList::at(int i) 
 {
-	return static_cast<Value&>(List::at(i));
+    return static_cast<Value&>(List::at(i));
 }
 
-void ValueList::accept(visitors::Visitor& visitor) const
+void ValueList::accept(visitors::Visitor& visitor)
+{
+    visitor.visit(*this);
+}
+
+void ValueList::accept(visitors::ConstVisitor& visitor) const
 {
     visitor.visit(*this);
 }

@@ -16,6 +16,15 @@ DecimalToken *DecimalToken::clone() const
     return new DecimalToken(m_value, m_precision, m_stringify);
 }
 
+bool DecimalToken::setValue(const QVariant& value)
+{
+    if (!value.canConvert(QVariant::Double)) return false;
+
+    m_value = value.toDouble();
+
+    return true;
+}
+
 QString DecimalToken::toString() const
 {
     QString format = m_stringify ? "\"%1\"" : "%1";

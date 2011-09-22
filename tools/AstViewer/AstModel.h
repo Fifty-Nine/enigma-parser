@@ -25,8 +25,11 @@ public:
     virtual int columnCount(const QModelIndex& parent=QModelIndex()) const;
     virtual QVariant data(
         const QModelIndex& idx, int role=Qt::DisplayRole) const;
+    virtual bool setData(
+        const QModelIndex& idx, const QVariant& value, int role=Qt::EditRole);
     virtual QVariant headerData(int section, 
         Qt::Orientation orientation, int role=Qt::DisplayRole) const;
+    virtual Qt::ItemFlags flags(const QModelIndex& idx) const;
 
 private:
     QVariant displayData( const QModelIndex& idx ) const;

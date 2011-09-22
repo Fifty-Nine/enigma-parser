@@ -20,6 +20,7 @@ public:
 
     /*! Get the numeric value of the token. */
     virtual QVariant value() const { return m_value; }
+    virtual bool setValue(const QVariant& value);
     void setValue(double value) { m_value = value; }
 
     int precision() const { return m_precision; }

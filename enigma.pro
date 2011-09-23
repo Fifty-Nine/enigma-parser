@@ -2,6 +2,6 @@ TEMPLATE = subdirs
 CONFIG += ordered staticlib 
 
 SUBDIRS += \
-    enigma \
+    enigma-parser \
     tools/AstViewer \
 

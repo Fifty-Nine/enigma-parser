@@ -19,7 +19,8 @@ class AstViewer::Data
 {
 public:
     Data(AstViewer *parent_, Ui::AstViewer *ui_) : 
-        parent(parent_), ui(ui_), dialog(parent), watcher(parent), model(parent)
+        parent(parent_), ui(ui_), dialog(parent), watcher(parent), 
+        model(parent), bar(new QProgressBar(parent))
     {
         ui->setupUi(parent);
 
@@ -39,9 +40,9 @@ public:
             parent, SLOT(fileSelected(QString)));
         connect(&watcher, SIGNAL(finished()), parent, SLOT(fileLoaded()));
 
-        QProgressBar *bar = new QProgressBar(parent);
         ui->statusBar->addPermanentWidget(bar);
         reader.setProgressBar(bar);
+        bar->setVisible(false);
     }
 
     static ast::AssignmentList *readFile(Data *d, const QString& file)
@@ -67,6 +68,7 @@ public:
     AstModel model;
     enigma::FileReader reader;
     std::unique_ptr<AssignmentList> tree;
+    QProgressBar *bar;
 };
 
 AstViewer::AstViewer(QWidget *parent, Qt::WFlags flags) : 
@@ -96,6 +98,7 @@ void AstViewer::fileSelected(const QString& filename)
     d->model.setFile(NULL);
     d->tree.reset(NULL);
     d->ui->actionCloseFile->setEnabled(false);
+    d->bar->setVisible(true);
     d->watcher.setFuture(QtConcurrent::run(&Data::readFile, d.get(), filename));
 }
 
@@ -105,4 +108,5 @@ void AstViewer::fileLoaded()
     d->model.setFile(tree);
     d->tree.reset(tree);
     d->ui->actionCloseFile->setEnabled(true);
+    d->bar->setVisible(false);
 }

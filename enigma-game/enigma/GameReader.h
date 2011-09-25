@@ -10,8 +10,8 @@ class QRegExp;
 namespace enigma
 {
 
-class Analyzer;
 class Game;
+namespace analyzers { class Analyzer; }
 namespace ast { class AssignmentNode; }
 
 /*! This class is used to analyze a parsed AST from a save
@@ -27,7 +27,7 @@ public:
 protected:
     GameReader(Game& game_);
 
-    void addAnalyzer(int prio, std::unique_ptr<Analyzer> a);
+    void addAnalyzer(int prio, std::unique_ptr<analyzers::Analyzer> a);
     
 private:
     class Data;

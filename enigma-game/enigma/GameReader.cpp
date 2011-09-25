@@ -23,7 +23,7 @@ public:
     }
 
     Game& game;
-    QMultiMap<int, Analyzer *> analyzers;
+    QMultiMap<int, analyzers::Analyzer *> analyzers;
 };
 
 GameReader::GameReader(Game& game) : 
@@ -37,7 +37,7 @@ GameReader::~GameReader()
 
 void GameReader::analyzeAssignment(const ast::AssignmentNode& node)
 {
-    for (Analyzer *analyzer : d->analyzers)
+    for (analyzers::Analyzer *analyzer : d->analyzers)
     {
         analyzer->analyze(d->game, node);
     } 
@@ -45,13 +45,13 @@ void GameReader::analyzeAssignment(const ast::AssignmentNode& node)
 
 void GameReader::postProcess()
 {
-    for (Analyzer *analyzer : d->analyzers)
+    for (analyzers::Analyzer *analyzer : d->analyzers)
     {
         analyzer->postProcess(d->game);
     }
 }
 
-void GameReader::addAnalyzer(int prio, std::unique_ptr<Analyzer> a)
+void GameReader::addAnalyzer(int prio, std::unique_ptr<analyzers::Analyzer> a)
 {
     d->analyzers.insert(prio, a.release());
 }

@@ -2,8 +2,8 @@
 
 #include <QMultiMap>
 
-#include "enigma/Analyzer.h"
 #include "enigma/Game.h"
+#include "enigma/analyzers/Analyzer.h"
 #include "enigma/ast/Assignment.h"
 
 namespace enigma

@@ -1,8 +1,11 @@
 HEADERS += \
     enigma/Game.h\
     enigma/GameReader.h\
-    enigma/Analyzer.h\
+    enigma/Province.h\
 
 SOURCES += \
-    enigma/GameReader.cpp \
+    enigma/Game.cpp\
+    enigma/GameReader.cpp\
+    enigma/Province.cpp\
 
+include( analyzers/analyzers.pri )

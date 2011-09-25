@@ -16,6 +16,7 @@ namespace visitors
 class Visitor; 
 class ConstVisitor; 
 }
+class Date;
 
 namespace ast
 {
@@ -73,15 +74,18 @@ public:
     inline const Node& operator[](int idx) const { return at(idx); }
     inline Node& operator[](int idx) { return at(idx); }
 
+    class StreamVisitor;
+    friend class StreamVisitor;
 
 protected:
     Node(NodeType type) : 
-        m_type(type), m_parent(NULL), m_parent_idx(-1) { }
+        m_type(type), m_parent(NULL), m_parent_idx(-1), m_stream_idx(0) { }
 
 private:
     const NodeType m_type;
     Node *m_parent;
     int m_parent_idx;
+    mutable int m_stream_idx;
 };
 
 class Value : public Node
@@ -93,6 +97,12 @@ protected:
     Value(NodeType type) : 
         Node(type) { }
 };
+
+const Node& operator>>(const Node& node, QString& value);
+const Node& operator>>(const Node& node, long long& value);
+const Node& operator>>(const Node& node, double& value);
+const Node& operator>>(const Node& node, bool& value);
+const Node& operator>>(const Node& node, Date& date);
 
 } // namespace ast
 } // namespace enigma

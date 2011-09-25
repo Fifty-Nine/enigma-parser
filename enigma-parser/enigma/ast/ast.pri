@@ -13,4 +13,5 @@ SOURCES += \
     enigma/ast/List.cpp \
     enigma/ast/AssignmentList.cpp \
     enigma/ast/ValueList.cpp \
+    enigma/ast/Operators.cpp \
 

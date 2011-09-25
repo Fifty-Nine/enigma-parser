@@ -6,7 +6,7 @@ namespace enigma
 
 class Game;
 
-namespace ast { class AssignmentNode; }
+namespace ast { class Assignment; }
 
 namespace analyzers
 {
@@ -19,7 +19,7 @@ public:
     virtual ~Analyzer() { }
 
     /*! Analyze the given assignment. */
-    virtual void analyze(Game& game, const ast::AssignmentNode& node) 
+    virtual void analyze(Game& game, const ast::Assignment& node) 
        = 0;
     
     /*! Perform any necessary postprocessing steps on the game. */

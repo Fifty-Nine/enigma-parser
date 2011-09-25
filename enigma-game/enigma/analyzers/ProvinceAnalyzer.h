@@ -11,7 +11,7 @@ namespace analyzers
 class ProvinceAnalyzer : public Analyzer
 {
 public:
-    virtual void analyze(Game& game, const ast::AssignmentNode& node);
+    virtual void analyze(Game& game, const ast::Assignment& node);
 };
 
 } // namespace analyzers 

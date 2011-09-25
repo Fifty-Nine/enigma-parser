@@ -35,7 +35,7 @@ GameReader::~GameReader()
 {
 }
 
-void GameReader::analyzeAssignment(const ast::AssignmentNode& node)
+void GameReader::analyzeAssignment(const ast::Assignment& node)
 {
     for (analyzers::Analyzer *analyzer : d->analyzers)
     {

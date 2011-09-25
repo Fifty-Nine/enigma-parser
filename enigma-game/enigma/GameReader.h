@@ -12,7 +12,7 @@ namespace enigma
 
 class Game;
 namespace analyzers { class Analyzer; }
-namespace ast { class AssignmentNode; }
+namespace ast { class Assignment; }
 
 /*! This class is used to analyze a parsed AST from a save
  *  game and store the information in a Game object. */
@@ -21,7 +21,7 @@ class GameReader : private boost::noncopyable
 public:
     virtual ~GameReader();
 
-    virtual void analyzeAssignment(const ast::AssignmentNode& node);
+    virtual void analyzeAssignment(const ast::Assignment& node);
     virtual void postProcess();
 
 protected:

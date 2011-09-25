@@ -100,6 +100,8 @@ protected:
 
 const Node& operator>>(const Node& node, QString& value);
 const Node& operator>>(const Node& node, long long& value);
+const Node& operator>>(const Node& node, int& value);
+const Node& operator>>(const Node& node, unsigned int& value);
 const Node& operator>>(const Node& node, double& value);
 const Node& operator>>(const Node& node, bool& value);
 const Node& operator>>(const Node& node, Date& date);

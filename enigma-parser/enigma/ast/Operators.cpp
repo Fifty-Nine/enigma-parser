@@ -1,6 +1,7 @@
 #include "enigma/ast/Node.h"
 
 #include <cassert>
+#include <limits>
 
 #include "enigma/ast/Leaf.h"
 #include "enigma/ast/Assignment.h"
@@ -67,7 +68,7 @@ const Node& operator>>(const Node& node, QString& value)
     return node;
 }
 
-const Node& operator>>(const Node& node, int& value)
+const Node& operator>>(const Node& node, long long& value)
 {
     Node::StreamVisitor v(node);
 
@@ -75,6 +76,31 @@ const Node& operator>>(const Node& node, int& value)
     {
         value = v.value.toLongLong();
     }
+
+    return node;
+}
+
+const Node& operator>>(const Node& node, int& value)
+{
+    long long r;
+    node >> r;
+
+    assert(r <= (long long)std::numeric_limits<int>::max());
+    assert(r >= (long long)std::numeric_limits<int>::min());
+
+    value = (int)r;
+
+    return node;
+}
+const Node& operator>>(const Node& node, unsigned int& value)
+{
+    long long r;
+    node >> r;
+
+    assert(r <= (long long)std::numeric_limits<unsigned int>::max());
+    assert(r >= (long long)std::numeric_limits<unsigned int>::min());
+
+    value = (unsigned int)r;
 
     return node;
 }

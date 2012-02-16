@@ -15,6 +15,7 @@ public:
 private slots:
     void on_actionOpen_activated();
     void on_actionCloseFile_activated(); 
+    void on_buttonSearch_clicked();
     void fileSelected(const QString& filename);
     void fileLoaded();
 

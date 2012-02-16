@@ -22,6 +22,20 @@
      <number>0</number>
     </property>
     <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLineEdit" name="searchBox"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="buttonSearch">
+        <property name="text">
+         <string>Search</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
      <widget class="QTreeView" name="treeView">
       <attribute name="headerVisible">
        <bool>true</bool>
@@ -68,11 +82,11 @@
    </property>
   </action>
   <action name="actionCloseFile">
-   <property name="text">
-    <string>&amp;Close File</string>
-   </property>
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Close File</string>
    </property>
   </action>
  </widget>

@@ -9,6 +9,7 @@ CONFIG(debug, debug|release) {
     LIBS += -L../../enigma-parser/debug
     win32:PRE_TARGETDEPS += ../../enigma-parser/debug/enigma-parser.lib
     unix:PRE_TARGETDEPS += ../../enigma-parser/debug/libenigma-parser.a
+    unix:QMAKE_LFLAGS += -Wl,-rpath,../../enigma-parser/debug
 }
 
 CONFIG(release, debug|release) { 
@@ -17,6 +18,7 @@ CONFIG(release, debug|release) {
     LIBS += -L../../enigma-parser/release
     win32:PRE_TARGETDEPS += ../../enigma-parser/release/enigma-parser.lib
     unix:PRE_TARGETDEPS += ../../enigma-parser/release/libenigma-parser.a
+    unix:QMAKE_LFLAGS += -Wl,-rpath,../../enigma-parser/release
 }
 
 QMAKE_CLEAN += $$TARGET

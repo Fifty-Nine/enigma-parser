@@ -2,11 +2,15 @@
 #define ASTMODEL_H
 
 #include <QAbstractItemModel>
+#include <QRegExp>
+#include <QSortFilterProxyModel>
 
-namespace enigma
-{
-namespace ast { class Node; }
-}
+#include <boost/function.hpp>
+#include <boost/phoenix/core/value.hpp>
+
+#include "enigma/ast/Node.h"
+
+class AstFilterModel;
 
 class AstModel : public QAbstractItemModel
 {
@@ -37,6 +41,27 @@ private:
 
     enigma::ast::Node *GetNode(const QModelIndex& idx) const;
     enigma::ast::Node *m_root;
+
+    friend class AstFilterModel;
+};
+
+class AstFilterModel : 
+    public QSortFilterProxyModel
+{
+    Q_OBJECT;
+public:
+    AstFilterModel(QObject *parent);
+    virtual ~AstFilterModel();
+
+    typedef boost::function<bool(const enigma::ast::Node&)> Predicate;
+    void setFilter(Predicate pred = boost::phoenix::val(true));
+    virtual void setSourceModel(AstModel *model);
+    virtual AstModel *sourceModel() const;
+
+protected:
+    virtual bool filterAcceptsRow(int row, const QModelIndex& parent) const;
+
+    Predicate m_pred;
 };
 
 #endif // ASTMODEL_H

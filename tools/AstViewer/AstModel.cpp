@@ -1,5 +1,7 @@
 #include "AstModel.h"
 
+#include <boost/phoenix/core/value.hpp>
+
 #include "enigma/ast/Node.h"
 #include "enigma/ast/Leaf.h"
 #include "NodeUtils.h"
@@ -142,3 +144,40 @@ ast::Node* AstModel::GetNode(const QModelIndex& idx) const
         (ast::Node*)idx.internalPointer() : m_root;
 }
 
+AstFilterModel::AstFilterModel(QObject *parent) : 
+    QSortFilterProxyModel(parent), 
+    m_pred(boost::phoenix::val(true))
+{
+}
+
+AstFilterModel::~AstFilterModel()
+{
+}
+
+void AstFilterModel::setFilter(Predicate pred)
+{
+    m_pred = pred;
+    invalidateFilter();
+}
+
+void AstFilterModel::setSourceModel(AstModel *model)
+{
+    QSortFilterProxyModel::setSourceModel(model);
+}
+
+AstModel* AstFilterModel::sourceModel() const
+{
+    return static_cast<AstModel*>( QSortFilterProxyModel::sourceModel() );
+}
+
+bool AstFilterModel::filterAcceptsRow( int row, const QModelIndex& parent ) 
+    const
+{
+    ast::Node& parent_p = *(sourceModel()->GetNode( parent ));
+    ast::Node& node_p = parent_p.at( row );
+
+    return m_pred(node_p);
+
+    (void)row; (void)parent;
+    return true;
+}

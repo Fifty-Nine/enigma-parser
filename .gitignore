@@ -14,3 +14,4 @@ GeneratedFiles/*
 build/*
 Makefile*
 cscope.out
+doxy/*

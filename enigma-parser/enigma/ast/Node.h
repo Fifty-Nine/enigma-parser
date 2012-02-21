@@ -77,6 +77,9 @@ public:
     class StreamVisitor;
     friend class StreamVisitor;
 
+    template<class T> const T* cast() const;
+    template<class T> T* cast();
+
 protected:
     Node(NodeType type) : 
         m_type(type), m_parent(NULL), m_parent_idx(-1), m_stream_idx(0) { }
@@ -97,6 +100,18 @@ protected:
     Value(NodeType type) : 
         Node(type) { }
 };
+
+template<class T>
+const T* Node::cast() const
+{
+    return dynamic_cast<const T*>( this );
+}
+
+template<class T>
+T* Node::cast() 
+{
+    return dynamic_cast<T*>( this );
+}
 
 const Node& operator>>(const Node& node, QString& value);
 const Node& operator>>(const Node& node, long long& value);

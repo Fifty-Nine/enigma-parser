@@ -32,6 +32,9 @@ public:
     tokens::Token& token() { return *m_token; }
     const tokens::Token& token() const { return *m_token; }
 
+    QString toString() const;
+    QVariant value() const;
+
 private:
     Leaf(tokens::Token* token);
     const std::unique_ptr<tokens::Token> m_token;

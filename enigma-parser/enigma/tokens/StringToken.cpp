@@ -5,14 +5,14 @@ namespace enigma
 namespace tokens
 {
 
-StringToken::StringToken(const QString& value) : 
-    Token(TokenType::String), m_value(value), m_stringify(true)
+StringToken::StringToken(const QString& value, const Location& loc) : 
+    Token(TokenType::String, loc), m_value(value), m_stringify(true)
 {
 }
 
 StringToken *StringToken::clone() const
 {
-    return new StringToken(type(), m_value, m_stringify);
+    return new StringToken(type(), m_value, m_stringify, location());
 }
 
 bool StringToken::setValue(const QVariant& value)
@@ -30,8 +30,8 @@ QString StringToken::toString() const
 }
 
 StringToken::StringToken( 
-    TokenType type, const QString& value, bool stringify) :
-    Token(type), m_value(value), m_stringify(stringify)
+    TokenType type, const QString& value, bool stringify, const Location& loc) :
+    Token(type, loc), m_value(value), m_stringify(stringify)
 {
 }
 

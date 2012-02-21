@@ -6,4 +6,5 @@ SUBDIRS += \
     enigma-game \
     enigma-ck2 \
     tools/AstViewer \
+    tools/DumpNames \
 

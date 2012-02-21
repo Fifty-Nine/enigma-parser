@@ -14,8 +14,9 @@ class IntegerToken : public Token
 public:
     /*! Construct a decimal token with the given value and precision.
      * \param [in] value The value.
-     * \param [in] stringify True if the value is quoted, as in StringToken. */
-    IntegerToken(long long value, bool stringify);
+     * \param [in] stringify True if the value is quoted, as in StringToken. 
+     * \param [in] loc The location of the token in the input file. */
+    IntegerToken(long long value, bool stringify, const Location& loc);
 
     /*! Get the token's integral value. */
     virtual QVariant value() const { return m_value; }

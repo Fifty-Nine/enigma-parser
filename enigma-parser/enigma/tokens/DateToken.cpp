@@ -5,8 +5,8 @@ namespace enigma
 namespace tokens
 {
 
-DateToken::DateToken(const Date& date, bool stringify)
-    : StringToken(TokenType::Date, date.toString(), stringify)
+DateToken::DateToken(const Date& date, bool stringify, const Location& loc)
+    : StringToken(TokenType::Date, date.toString(), stringify, loc)
 {
 }
 
@@ -31,7 +31,7 @@ bool DateToken::setValue(const QVariant& value)
 
 DateToken *DateToken::clone() const
 {
-    return new DateToken(m_date, m_stringify);
+    return new DateToken(m_date, m_stringify, location());
 }
 
 } // namespace tokens

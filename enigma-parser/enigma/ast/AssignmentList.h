@@ -22,6 +22,7 @@ public:
     virtual void accept(visitors::Visitor& visitor);
     virtual void accept(visitors::ConstVisitor& visitor) const;
 
+    Value* operator[](const QString& key);
     const Value* operator[](const QString& key) const;
     virtual const Assignment& at(int i) const;
     virtual Assignment& at(int i);

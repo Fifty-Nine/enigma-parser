@@ -8,7 +8,7 @@
 
 namespace enigma {
 
-namespace ast { class Node; }
+namespace ast { class AssignmentList; }
 
 namespace ck2 {
 
@@ -18,7 +18,7 @@ class Game
 public:
     /*! Constructor.
      *  \param[in] root A pointer to the root node for the game. */
-    Game(ast::Node *root);
+    Game(const ast::AssignmentList *root);
 
     /*! Destructor. */
     virtual ~Game();
@@ -33,9 +33,13 @@ public:
      *  \return A pointer to the character, or NULL if none with that ID. */
     const Character* character(Character::Id id) const;
 
+    /*! Get a list of all the characters in the game.
+     * \return The list. */
+    QList<const Character*> characters() const;
+
 private:
-    typedef QHash<Character::Id, Character*> CharacterMap;
-    CharacterMap m_characters;
+    struct Data;
+    const std::unique_ptr<Data> d;
 };
 
 } // namespace ck2

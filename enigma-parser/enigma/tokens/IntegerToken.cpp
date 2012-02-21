@@ -6,8 +6,9 @@ namespace enigma
 namespace tokens 
 {
 
-IntegerToken::IntegerToken(long long value, bool stringify) : 
-    Token(TokenType::Integer), m_value(value), m_stringify(stringify)
+IntegerToken::IntegerToken(
+    long long value, bool stringify, const Location& loc) : 
+    Token(TokenType::Integer, loc), m_value(value), m_stringify(stringify)
 {
 }
 
@@ -29,7 +30,7 @@ QString IntegerToken::toString() const
 
 IntegerToken *IntegerToken::clone() const
 {
-    return new IntegerToken(m_value, m_stringify);
+    return new IntegerToken(m_value, m_stringify, location());
 }
 
 } // namespace tokens

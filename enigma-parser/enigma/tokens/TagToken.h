@@ -12,9 +12,9 @@ namespace tokens
 class TagToken : public StringToken
 {
 public:
-    TagToken(const QString& tag, bool stringify);
+    TagToken(const QString& tag, bool stringify, const Location& loc);
 
-	using StringToken::setValue;
+    using StringToken::setValue;
 
     virtual TagToken *clone() const;
 };

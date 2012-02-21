@@ -5,15 +5,16 @@ namespace enigma
 namespace tokens 
 {
 
-DecimalToken::DecimalToken(double value, int precision, bool stringify) :
-    Token(TokenType::Decimal), 
+DecimalToken::DecimalToken(double value, int precision, bool stringify, 
+    const Location& loc) :
+    Token(TokenType::Decimal, loc), 
     m_value(value), m_precision(precision), m_stringify(stringify)
 {
 }
 
 DecimalToken *DecimalToken::clone() const
 {
-    return new DecimalToken(m_value, m_precision, m_stringify);
+    return new DecimalToken(m_value, m_precision, m_stringify, location());
 }
 
 bool DecimalToken::setValue(const QVariant& value)

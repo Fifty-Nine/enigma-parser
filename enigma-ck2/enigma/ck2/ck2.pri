@@ -1,3 +1,5 @@
+include(sema/sema.pri)
+
 HEADERS += \
     enigma/ck2/Character.h \
     enigma/ck2/Game.h \

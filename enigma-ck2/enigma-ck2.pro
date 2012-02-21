@@ -1,5 +1,5 @@
 TEMPLATE = lib
-CONFIG += staticlib shared
+CONFIG += shared staticlib
 
 include( ../Common.pri )
 

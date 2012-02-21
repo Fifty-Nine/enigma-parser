@@ -6,6 +6,7 @@
 #include <QString>
 #include <QVariant>
 
+#include "enigma/Location.h"
 #include "enigma/util/Enumeration.h"
 
 namespace enigma
@@ -75,12 +76,17 @@ public:
      *  \return True if the value was set. */
     virtual bool setValue(const QVariant&) { return false; }
 
+    /*! Get the location of the token in the input file.
+     *  \return The location. */
+    Location location() const { return m_loc; }
+
 protected:
-    Token(TokenType type) : 
-        m_type(type) { }
+    Token(TokenType type, const Location& loc) : 
+        m_type(type), m_loc(loc) { }
 
 private:
     const TokenType m_type;
+    const Location m_loc;
 };
 
 } // namespace tokens

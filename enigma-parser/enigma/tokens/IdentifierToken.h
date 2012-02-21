@@ -13,13 +13,14 @@ class IdentifierToken : public StringToken
 {
 public:
     /*! Construct a new token initialized with the given name.
-     * \param[in] identifier The identifier. */
-    IdentifierToken(const QString& identifier);
+     * \param[in] identifier The identifier.
+     * \param [in] loc The location of the token in the input file. */
+    IdentifierToken(const QString& identifier, const Location& loc);
 
     /*! Get the date value of this token. 
      * \return The date. */
     QString identifier() const { return m_value; }
-	void setIdentifier(const QString& value) { StringToken::setValue(value); }
+    void setIdentifier(const QString& value) { StringToken::setValue(value); }
 
     virtual IdentifierToken *clone() const;
 };

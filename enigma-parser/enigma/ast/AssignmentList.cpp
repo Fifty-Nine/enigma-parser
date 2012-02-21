@@ -60,6 +60,21 @@ void AssignmentList::accept(visitors::ConstVisitor& visitor) const
     visitor.visit(*this);
 }
 
+Value* AssignmentList::operator[](const QString& key) 
+{
+    for (int i = 0; i < count(); ++i)
+    {
+        Assignment& node(at(i));
+
+        if (node.left().token().toString() == key)
+        {
+            return &node.right();
+        }
+    }
+
+    return NULL;
+}
+
 const Value* AssignmentList::operator[](const QString& key) const
 {
     for (int i = 0; i < count(); ++i)

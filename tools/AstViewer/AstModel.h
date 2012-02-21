@@ -35,33 +35,20 @@ public:
         Qt::Orientation orientation, int role=Qt::DisplayRole) const;
     virtual Qt::ItemFlags flags(const QModelIndex& idx) const;
 
+    typedef boost::function<bool(const enigma::ast::Node&)> Predicate;
+    void setHighlight(Predicate pred = boost::phoenix::val(false));
+
 private:
-    QVariant displayData( const QModelIndex& idx ) const;
-    QVariant checkStateData( const QModelIndex& idx ) const;
+    QVariant displayData(const QModelIndex& idx) const;
+    QVariant checkStateData(const QModelIndex& idx) const;
+    QVariant bgColorData(const QModelIndex& idx) const;
 
     enigma::ast::Node *GetNode(const QModelIndex& idx) const;
     enigma::ast::Node *m_root;
 
+    Predicate m_highlight;
+
     friend class AstFilterModel;
-};
-
-class AstFilterModel : 
-    public QSortFilterProxyModel
-{
-    Q_OBJECT;
-public:
-    AstFilterModel(QObject *parent);
-    virtual ~AstFilterModel();
-
-    typedef boost::function<bool(const enigma::ast::Node&)> Predicate;
-    void setFilter(Predicate pred = boost::phoenix::val(true));
-    virtual void setSourceModel(AstModel *model);
-    virtual AstModel *sourceModel() const;
-
-protected:
-    virtual bool filterAcceptsRow(int row, const QModelIndex& parent) const;
-
-    Predicate m_pred;
 };
 
 #endif // ASTMODEL_H

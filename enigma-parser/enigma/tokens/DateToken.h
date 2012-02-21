@@ -15,8 +15,9 @@ class DateToken : public StringToken
 public:
     /*! Construct a new token initialized with the given date.
      * \param[in] date The date.
-     * \param[in] stringify True to quote the date, as in StringToken. */
-    DateToken(const Date& date, bool stringify);
+     * \param[in] stringify True to quote the date, as in StringToken. 
+     * \param [in] loc The location of the token in the input file. */
+    DateToken(const Date& date, bool stringify, const Location& loc);
 
     /*! Get the date value of this token. 
      * \return The date. */

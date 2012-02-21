@@ -24,12 +24,12 @@ struct Lexer::Impl
 {
     Impl(QIODevice *device_) :
         device(device_), stream(device_), 
-		line(1), column(1), pos(0)
+        line(1), column(1), pos(0)
     {
-		stream.setCodec("UTF-8");
+        stream.setCodec("UTF-8");
 
-		buffer = stream.read(1024);
-		buffer_it = buffer.begin();
+        buffer = stream.read(1024);
+        buffer_it = buffer.begin();
     }
 
     QString prettyChar(QChar c)
@@ -45,7 +45,7 @@ struct Lexer::Impl
     std::unique_ptr<QIODevice> device;
     QTextStream stream;
     QString buffer;
-	QString::const_iterator buffer_it;
+    QString::const_iterator buffer_it;
     int line;
     int column;
     int pos;
@@ -70,6 +70,7 @@ TokenPtr Lexer::nextToken()
         }
 
         QChar next = peek();
+        Location loc = currentPos();
 
         if (next.isNull())
         {
@@ -78,17 +79,17 @@ TokenPtr Lexer::nextToken()
         else if (next == '{')
         {
             consume();
-            return TokenPtr(new LeftBraceToken());
+            return TokenPtr(new LeftBraceToken(loc));
         }
         else if (next == '}')
         {
             consume();
-            return TokenPtr(new RightBraceToken());
+            return TokenPtr(new RightBraceToken(loc));
         }
         else if (next == '=')
         {
             consume();
-            return TokenPtr(new EqualsToken());
+            return TokenPtr(new EqualsToken(loc));
         }
         else if (next.isLetter())
         {
@@ -121,6 +122,7 @@ Location Lexer::currentPos() const
  * \return The lexed identifier token. */
 TokenPtr Lexer::lexIdentifiers()
 {
+    Location loc = currentPos();
     QString id = "";
 
     do 
@@ -138,32 +140,33 @@ TokenPtr Lexer::lexIdentifiers()
 
     if (lower == "yes" || lower == "no")
     {
-        return TokenPtr(new BooleanToken(lower == "yes", false));
+        return TokenPtr(new BooleanToken(lower == "yes", false, loc));
     }
 
     if ((id.count() == 3) && ((id == "---") || (id == id.toUpper())))
     {
-        return TokenPtr(new TagToken(id, false));
+        return TokenPtr(new TagToken(id, false, loc));
     }
 
-    return TokenPtr(new IdentifierToken(id));
+    return TokenPtr(new IdentifierToken(id, loc));
 }
 
 /*! Lex any string types at the current position of the stream.
  * \return The lexed token. */
 TokenPtr Lexer::lexStrings()
 {
+    Location loc = currentPos();
     consume();
 
     QChar next = peek();
 
     QString str = "";
 
-	int decimals = 0;
+    int decimals = 0;
     while (!next.isNull() && next != '"')
     {
         str += next;
-		if (next == '.') ++decimals;
+        if (next == '.') ++decimals;
         consume();
         next = peek();
     }
@@ -172,18 +175,18 @@ TokenPtr Lexer::lexStrings()
 
     if ((str.count() == 3) && ((str == "---") || (str == str.toUpper())))
     {
-        return TokenPtr(new TagToken(str, true));
+        return TokenPtr(new TagToken(str, true, loc));
     }
 
-	if ((decimals == '2') || (decimals == 3))
-	{
-		Date date = Date::parse(str);
+    if ((decimals == '2') || (decimals == 3))
+    {
+        Date date = Date::parse(str);
 
-		if (date.isValid())
-		{
-	        return TokenPtr(new DateToken(date, true));
-		}
-	}
+        if (date.isValid())
+        {
+            return TokenPtr(new DateToken(date, true, loc));
+        }
+    }
 
     if (decimals == 0)
     {
@@ -191,7 +194,7 @@ TokenPtr Lexer::lexStrings()
         long long v = str.toLongLong(&ok);
         if (ok)
         {
-            return TokenPtr(new IntegerToken(v, true));
+            return TokenPtr(new IntegerToken(v, true, loc));
         }
     }
 
@@ -203,17 +206,18 @@ TokenPtr Lexer::lexStrings()
 
         if (ok)
         {
-            return TokenPtr(new DecimalToken(v, prec, true));
+            return TokenPtr(new DecimalToken(v, prec, true, loc));
         }
     }
 
-    return TokenPtr(new StringToken(str));
+    return TokenPtr(new StringToken(str, loc));
 }
 
 /*! Lex any numeric types at the current position of the stream.
  * \return The lexed numeric token. */
 TokenPtr Lexer::lexNumeric()
 {
+    Location loc = currentPos();
     QString str = "";
 
     if (peek() == '-')
@@ -244,24 +248,24 @@ TokenPtr Lexer::lexNumeric()
             throw exceptions::UnmatchedInputException(currentPos(), str);
         }
 
-        return TokenPtr(new DateToken(date, false));
+        return TokenPtr(new DateToken(date, false, loc));
     }
     else if (decimals == 1)
     {
         int prec = str.split('.')[1].count();
 
-        return TokenPtr(new DecimalToken(str.toDouble(), prec, false));
+        return TokenPtr(new DecimalToken(str.toDouble(), prec, false, loc));
     }
 
-    return TokenPtr(new IntegerToken(str.toLongLong(), false));
+    return TokenPtr(new IntegerToken(str.toLongLong(), false, loc));
 }
 
 /*! Examine the next character in the stream without consuming it. 
  * \return The next character, or -1 at end of file. */
 QChar Lexer::peek() const
 {
-	return (d->buffer_it != d->buffer.end()) ?  
-		*d->buffer_it : QChar();
+    return (d->buffer_it != d->buffer.end()) ?  
+        *d->buffer_it : QChar();
 }
 
 /*! Assert that the character at the current position in the stream equals
@@ -319,24 +323,24 @@ void Lexer::consume(const QSet<QChar>& expected)
 {
     expect(expected);
 
-	if (d->buffer.count() == 0)
-	{
-		return;
-	}
+    if (d->buffer.count() == 0)
+    {
+        return;
+    }
 
     QChar head = *d->buffer_it;
-	if (++d->buffer_it == d->buffer.end())
-	{
-		d->buffer = d->stream.read(1024);
-		d->buffer_it = d->buffer.begin();
-	}
+    if (++d->buffer_it == d->buffer.end())
+    {
+        d->buffer = d->stream.read(1024);
+        d->buffer_it = d->buffer.begin();
+    }
 
     if ( head == '\n' )
     {
         ++d->line;
         d->column = 0;
     }
-	++d->pos;
+    ++d->pos;
     ++d->column;
 }
 

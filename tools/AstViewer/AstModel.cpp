@@ -2,14 +2,17 @@
 
 #include <boost/phoenix/core/value.hpp>
 
+#include <QColor>
+
 #include "enigma/ast/Node.h"
 #include "enigma/ast/Leaf.h"
 #include "NodeUtils.h"
 
 using namespace enigma;
 
-AstModel::AstModel(QObject *parent)
-    : QAbstractItemModel(parent), m_root(NULL)
+AstModel::AstModel(QObject *parent) : 
+    QAbstractItemModel(parent), m_root(NULL), 
+    m_highlight(boost::phoenix::val(false))
 {
 
 }
@@ -70,6 +73,7 @@ QVariant AstModel::data(const QModelIndex& idx, int role) const
     {
     case Qt::DisplayRole: return displayData(idx);
     case Qt::CheckStateRole: return checkStateData(idx);
+    case Qt::BackgroundRole: return bgColorData(idx);
     }
 
     return QVariant();
@@ -138,46 +142,19 @@ QVariant AstModel::checkStateData(const QModelIndex& idx) const
     return val.toBool() ? Qt::Checked : Qt::Unchecked;
 }
 
+QVariant AstModel::bgColorData(const QModelIndex& idx) const
+{
+    return m_highlight(*GetNode(idx)) ? 
+        QVariant(QColor(0xff, 0xa0, 0xa0)) : QVariant();
+}
+
 ast::Node* AstModel::GetNode(const QModelIndex& idx) const
 {
     return idx.isValid() ?
         (ast::Node*)idx.internalPointer() : m_root;
 }
 
-AstFilterModel::AstFilterModel(QObject *parent) : 
-    QSortFilterProxyModel(parent), 
-    m_pred(boost::phoenix::val(true))
+void AstModel::setHighlight(Predicate pred)
 {
-}
-
-AstFilterModel::~AstFilterModel()
-{
-}
-
-void AstFilterModel::setFilter(Predicate pred)
-{
-    m_pred = pred;
-    invalidateFilter();
-}
-
-void AstFilterModel::setSourceModel(AstModel *model)
-{
-    QSortFilterProxyModel::setSourceModel(model);
-}
-
-AstModel* AstFilterModel::sourceModel() const
-{
-    return static_cast<AstModel*>( QSortFilterProxyModel::sourceModel() );
-}
-
-bool AstFilterModel::filterAcceptsRow( int row, const QModelIndex& parent ) 
-    const
-{
-    ast::Node& parent_p = *(sourceModel()->GetNode( parent ));
-    ast::Node& node_p = parent_p.at( row );
-
-    return m_pred(node_p);
-
-    (void)row; (void)parent;
-    return true;
+    m_highlight = pred;
 }

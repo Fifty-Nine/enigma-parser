@@ -47,5 +47,15 @@ Leaf::Leaf(tokens::Token *token) :
 {
 }
 
+QString Leaf::toString() const
+{
+    return m_token->toString();
+}
+
+QVariant Leaf::value() const
+{
+    return m_token->value();
+}
+
 } // namespace ast
 } // namespace enigma

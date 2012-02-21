@@ -13,9 +13,9 @@ template<TokenType::Enum T, char c>
 class LiteralToken : public Token
 {
 public:
-    LiteralToken() : Token(T) { }
+    LiteralToken(const Location& loc) : Token(T, loc) { }
 
-    virtual LiteralToken *clone() const { return new LiteralToken; }
+    virtual LiteralToken *clone() const { return new LiteralToken(location()); }
     virtual QString toString() const { return QString(c); }
 };
 

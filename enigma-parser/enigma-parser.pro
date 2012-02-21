@@ -1,5 +1,5 @@
 TEMPLATE = lib
-CONFIG += staticlib shared
+CONFIG += staticlib 
 
 include( ../Common.pri )
 include( enigma/enigma.pri )

@@ -13,8 +13,9 @@ class BooleanToken : public StringToken
 public:
     /*! Construct a boolean token with the given value.
      * \param [in] value The value.
-     * \param [in] stringify True if the value is quoted, as in StringToken. */
-    BooleanToken(bool value, bool stringify);
+     * \param [in] stringify True if the value is quoted, as in StringToken. 
+     * \param [in] loc The location of the token in the input file. */
+    BooleanToken(bool value, bool stringify, const Location& loc);
 
     /*! Get the token's boolean value. */
     virtual QVariant value() const { return m_value; }

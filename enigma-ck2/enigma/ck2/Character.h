@@ -2,6 +2,8 @@
 #define ENIGMA_CK2_CHARACTER_H
 #pragma once
 
+#include <QString>
+
 namespace enigma { 
 namespace ck2 { 
 
@@ -23,8 +25,17 @@ public:
      *  \return The id. */
     Id id() const;
 
+    /*! Get the character's birth name.
+     *  \return The name. */
+    QString birthName() const { return m_name; }
+
+    /*! Set the character's birth name. 
+     *  \param[in] name The new birth name. */
+    void setBirthName(const QString& name) { m_name = name; }
+
 private:
     Id m_id;
+    QString m_name;
 };
 
 } // namespace ck2

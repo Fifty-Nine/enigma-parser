@@ -71,12 +71,11 @@ class AstViewer::Data
 public:
     Data(AstViewer *parent_, Ui::AstViewer *ui_) : 
         parent(parent_), ui(ui_), dialog(parent), watcher(parent), 
-        model(parent), filter_model(parent), bar(new QProgressBar(parent))
+        model(parent), bar(new QProgressBar(parent))
     {
         ui->setupUi(parent);
 
-        filter_model.setSourceModel(&model);
-        ui->treeView->setModel(&filter_model);
+        ui->treeView->setModel(&model);
 
         QList<QString> filters;
         filters << "All Paradox Files (*.txt *.eu3 *.ck2 *.v2 *.hoi3 *.sgu *.eug)";
@@ -119,7 +118,6 @@ public:
     QFileDialog dialog;
     QFutureWatcher<AssignmentList*> watcher;
     AstModel model;
-    AstFilterModel filter_model;
     enigma::FileReader reader;
     std::unique_ptr<AssignmentList> tree;
     QProgressBar *bar;
@@ -144,20 +142,28 @@ void AstViewer::on_actionCloseFile_activated()
 {
     d->model.setFile(NULL);
     d->tree.reset(NULL);
+    d->ui->buttonSearch->setEnabled(false);
     d->ui->actionCloseFile->setEnabled(false);
 }
 
 void AstViewer::on_buttonSearch_clicked()
 {
-    QString text( d->ui->searchBox->text() );
+    QString text( d->ui->searchBox->currentText() );
 
     if ( !text.isEmpty() )
     {
-        d->filter_model.setFilter( SearchVisitor( QRegExp( text ) ) );
+        int idx = d->ui->searchBox->findText( text );
+        if ( idx >= 0 )
+        {
+            d->ui->searchBox->removeItem( idx );
+        }
+        d->ui->searchBox->insertItem( 0, text );
+        d->ui->searchBox->setCurrentIndex( 0 );
+        d->model.setHighlight( SearchVisitor( QRegExp( text ) ) );
     }
     else
     {
-        d->filter_model.setFilter();
+        d->model.setHighlight();
     }
 }
 
@@ -175,6 +181,8 @@ void AstViewer::fileLoaded()
     AssignmentList* tree = d->watcher.result();
     d->model.setFile(tree);
     d->tree.reset(tree);
+    d->ui->buttonSearch->setEnabled(true);
     d->ui->actionCloseFile->setEnabled(true);
     d->bar->setVisible(false);
 }
+

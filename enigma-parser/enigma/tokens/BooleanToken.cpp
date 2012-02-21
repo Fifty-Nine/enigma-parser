@@ -5,15 +5,15 @@ namespace enigma
 namespace tokens
 {
 
-BooleanToken::BooleanToken(bool value, bool stringify) :
-    StringToken(TokenType::Boolean, value ? "yes" : "no", stringify),
+BooleanToken::BooleanToken(bool value, bool stringify, const Location& loc) :
+    StringToken(TokenType::Boolean, value ? "yes" : "no", stringify, loc),
     m_value(value)
 {
 }
 
 BooleanToken *BooleanToken::clone() const
 {
-    return new BooleanToken(m_value, m_stringify);
+    return new BooleanToken(m_value, m_stringify, location());
 }
 
 void BooleanToken::setValue(bool value)

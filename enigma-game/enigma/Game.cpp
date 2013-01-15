@@ -35,4 +35,24 @@ Province* Game::province(Province::Id id)
     return new_prov;
 }
 
+QList<Province*> Game::provinces() 
+{
+    QList<Province*> result;
+    foreach ( Province* province_p, m_provinces )
+    {
+        result << province_p;
+    }
+    return result;
+}
+
+QList<const Province*> Game::provinces() const
+{
+    QList<const Province*> result;
+    foreach ( const Province* province_p, m_provinces )
+    {
+        result << province_p;
+    }
+    return result;
+}
+
 }

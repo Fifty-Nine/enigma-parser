@@ -23,9 +23,17 @@ public:
      *          already in the game. */
     virtual Province* province(Province::Id id);
 
+    /*! Get the list of provinces in the game.
+     *  \return The provinces. */
+    virtual QList<Province*> provinces();
+
+    /*! Get the list of provinces in the game.
+     *  \return The provinces. */
+    virtual QList<const Province*> provinces() const;
+
 protected:
     typedef QHash<Province::Id, Province*> ProvinceMap;
-    mutable ProvinceMap m_provinces;
+    ProvinceMap m_provinces;
 };
 
 } // namespace enigma

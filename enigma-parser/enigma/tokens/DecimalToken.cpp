@@ -6,7 +6,7 @@ namespace tokens
 {
 
 DecimalToken::DecimalToken(double value, int precision, bool stringify, 
-    const FilePos& loc) :
+    const FileSpan& loc) :
     Token(TokenType::Decimal, loc), 
     m_value(value), m_precision(precision), m_stringify(stringify)
 {

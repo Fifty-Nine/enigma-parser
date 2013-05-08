@@ -78,15 +78,15 @@ public:
 
     /*! Get the location of the token in the input file.
      *  \return The location. */
-    FilePos location() const { return m_loc; }
+    FileSpan location() const { return m_loc; }
 
 protected:
-    Token(TokenType type, const FilePos& loc) : 
+    Token(TokenType type, const FileSpan& loc) : 
         m_type(type), m_loc(loc) { }
 
 private:
     const TokenType m_type;
-    const FilePos m_loc;
+    const FileSpan m_loc;
 };
 
 } // namespace tokens

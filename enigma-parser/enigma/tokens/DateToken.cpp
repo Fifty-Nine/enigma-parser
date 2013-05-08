@@ -5,7 +5,7 @@ namespace enigma
 namespace tokens
 {
 
-DateToken::DateToken(const Date& date, bool stringify, const FilePos& loc)
+DateToken::DateToken(const Date& date, bool stringify, const FileSpan& loc)
     : StringToken(TokenType::Date, date.toString(), stringify, loc)
 {
 }

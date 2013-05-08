@@ -13,7 +13,7 @@ template<TokenType::Enum T, char c>
 class LiteralToken : public Token
 {
 public:
-    LiteralToken(const FilePos& loc) : Token(T, loc) { }
+    LiteralToken(const FileSpan& loc) : Token(T, loc) { }
 
     virtual LiteralToken *clone() const { return new LiteralToken(location()); }
     virtual QString toString() const { return QString(c); }

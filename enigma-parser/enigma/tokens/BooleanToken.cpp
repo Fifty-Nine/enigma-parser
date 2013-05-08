@@ -5,7 +5,7 @@ namespace enigma
 namespace tokens
 {
 
-BooleanToken::BooleanToken(bool value, bool stringify, const FilePos& loc) :
+BooleanToken::BooleanToken(bool value, bool stringify, const FileSpan& loc) :
     StringToken(TokenType::Boolean, value ? "yes" : "no", stringify, loc),
     m_value(value)
 {

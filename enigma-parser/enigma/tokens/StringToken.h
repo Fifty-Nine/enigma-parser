@@ -13,7 +13,7 @@ class StringToken : public Token
 {
 public:
     /*! Construct a string token with the given value. */
-    StringToken(const QString& value, const FilePos& loc);
+    StringToken(const QString& value, const FileSpan& loc);
 
     virtual StringToken *clone() const;
     virtual QString toString() const;
@@ -29,7 +29,7 @@ protected:
      *                      within quotation marks.
      * \param[in] loc The location of the token in the input file. */
     StringToken(TokenType type, const QString& value, bool stringify, 
-        const FilePos& loc);
+        const FileSpan& loc);
 
     void setValue(const QString& value) { m_value = value; }
 

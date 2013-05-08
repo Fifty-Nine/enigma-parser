@@ -18,7 +18,7 @@ public:
      * \param [in] stringify True if the value is quoted, as in StringToken.
      * \param [in] loc The location of the token in the input file. */
     DecimalToken(
-        double value, int precision, bool stringify, const FilePos& loc);
+        double value, int precision, bool stringify, const FileSpan& loc);
 
     /*! Get the numeric value of the token. */
     virtual QVariant value() const { return m_value; }

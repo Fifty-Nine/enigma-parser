@@ -5,7 +5,7 @@ namespace enigma
 namespace tokens
 {
 
-StringToken::StringToken(const QString& value, const FilePos& loc) : 
+StringToken::StringToken(const QString& value, const FileSpan& loc) : 
     Token(TokenType::String, loc), m_value(value), m_stringify(true)
 {
 }
@@ -30,7 +30,7 @@ QString StringToken::toString() const
 }
 
 StringToken::StringToken( 
-    TokenType type, const QString& value, bool stringify, const FilePos& loc) :
+    TokenType type, const QString& value, bool stringify, const FileSpan& loc) :
     Token(type, loc), m_value(value), m_stringify(stringify)
 {
 }

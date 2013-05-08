@@ -59,7 +59,7 @@ int AstModel::rowCount(const QModelIndex& parent) const
 
 int AstModel::columnCount(const QModelIndex&) const
 {
-    return 2;
+    return 4;
 }
 
 QVariant AstModel::data(const QModelIndex& idx, int role) const
@@ -98,6 +98,8 @@ QVariant AstModel::headerData(
     {
     case 0: return "Type";
     case 1: return "Data";
+    case 2: return "Start";
+    case 3: return "End";
     }
 
     return QVariant();
@@ -123,9 +125,15 @@ QVariant AstModel::displayData(const QModelIndex& idx) const
     {
         return node.type().toString();
     }
-    else
+    else if (idx.column() == 1)
     {
         return toString(node);
+    }
+    else
+    {
+        FileSpan span = node.location();
+        return QString::number( 
+            (idx.column() == 2) ? span.first.pos : span.second.pos, 16);
     }
 }
 

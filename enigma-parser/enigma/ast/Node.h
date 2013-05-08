@@ -6,6 +6,7 @@
 #include <memory>
 #include <QString>
 
+#include "enigma/FilePos.h"
 #include "enigma/util/Enumeration.h"
 
 namespace enigma
@@ -50,6 +51,7 @@ class Node : boost::noncopyable
 public:
     virtual ~Node();
 
+    FileSpan location() const { return m_span; }
     const Node* parent() const { return m_parent; }
     Node *parent() { return m_parent; }
     void setParent(Node *parent) { m_parent = parent; }
@@ -81,11 +83,13 @@ public:
     template<class T> T* cast();
 
 protected:
-    Node(NodeType type) : 
-        m_type(type), m_parent(NULL), m_parent_idx(-1), m_stream_idx(0) { }
+    Node(NodeType type, FileSpan span) : 
+        m_type(type), m_span(span), 
+        m_parent(NULL), m_parent_idx(-1), m_stream_idx(0) { }
 
 private:
     const NodeType m_type;
+    FileSpan m_span;
     Node *m_parent;
     int m_parent_idx;
     mutable int m_stream_idx;
@@ -97,8 +101,8 @@ public:
     virtual Value *clone() const = 0;
 
 protected:
-    Value(NodeType type) : 
-        Node(type) { }
+    Value(NodeType type, FileSpan span) : 
+        Node(type, span) { }
 };
 
 template<class T>

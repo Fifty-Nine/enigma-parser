@@ -15,19 +15,19 @@ class List : public Value
 {
 public:
     virtual ~List();
-	
+    
     virtual int count() const { return m_list.count(); }
-	virtual const Node& at(int idx) const { return *m_list.at(idx); }
-	virtual Node& at(int idx) { return *m_list.at(idx); }
+    virtual const Node& at(int idx) const { return *m_list.at(idx); }
+    virtual Node& at(int idx) { return *m_list.at(idx); }
 
 protected:
-    List(NodeType type, QList<Node*>& list);
-    List(NodeType type, QList<Node*>&& list);
+    List(NodeType type, QList<Node*>& list, FileSpan span);
+    List(NodeType type, QList<Node*>&& list, FileSpan span);
 
     QList<Node*> m_list;
 
 private:
-	void reparent();
+    void reparent();
 };
 
 } // namespace ast 

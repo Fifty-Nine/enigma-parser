@@ -107,6 +107,7 @@ public:
 
     std::unique_ptr<ast::List> parseList()
     {
+        FilePos start = next()->location().first;
         consume(TokenType::LeftBrace);
 
         TokenPtr leaf = consume();
@@ -118,19 +119,17 @@ public:
 
         if (peek->type() == TokenType::Equals)
         {
-            result = std::move(parseAssignmentList());
+            result = std::move(parseAssignmentList(start));
         }
         else
         {
-            result = std::move(parseValueList());
+            result = std::move(parseValueList(start));
         }
-
-        consume(TokenType::RightBrace);
 
         return result;
     }
 
-    std::unique_ptr<ast::AssignmentList> parseAssignmentList()
+    std::unique_ptr<ast::AssignmentList> parseAssignmentList(FilePos start)
     {
         QList<ast::Assignment*> nodes;
 
@@ -139,11 +138,14 @@ public:
             nodes << parseAssignment().release();
         }
         
+        consume(TokenType::RightBrace);
+
+        FileSpan span(start, next()->location().first);
         return std::unique_ptr<ast::AssignmentList>(
-            new ast::AssignmentList(nodes));
+            new ast::AssignmentList(nodes, span));
     }
 
-    std::unique_ptr<ast::ValueList> parseValueList()
+    std::unique_ptr<ast::ValueList> parseValueList(FilePos start)
     {
         QList<ast::Value*> nodes;
 
@@ -152,7 +154,10 @@ public:
             nodes << parseValue().release();
         }
 
-        return std::unique_ptr<ast::ValueList>(new ast::ValueList(nodes));
+        consume(TokenType::RightBrace);
+
+        FileSpan span(start, next()->location().first);
+        return std::unique_ptr<ast::ValueList>(new ast::ValueList(nodes, span));
     }
 
     std::unique_ptr<ast::Value> parseValue()
@@ -226,7 +231,7 @@ FilePos Parser::currentPos() const
 
 std::unique_ptr<ast::AssignmentList> Parser::parse()
 {
-    return d->parseAssignmentList();
+    return d->parseAssignmentList(d->m_lexer->currentPos());
 }
 
 std::unique_ptr<ast::Assignment> Parser::parseOne()

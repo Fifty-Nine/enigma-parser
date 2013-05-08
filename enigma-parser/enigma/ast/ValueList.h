@@ -13,8 +13,8 @@ class Value;
 class ValueList : public List
 {
 public:
-    ValueList(QList<Value*>& list);
-    ValueList(QList<Value*>&& list);
+    ValueList(QList<Value*>& list, FileSpan span);
+    ValueList(QList<Value*>&& list, FileSpan span);
 
     virtual ValueList *clone() const;
     virtual void accept(visitors::Visitor& visitor);
@@ -27,7 +27,7 @@ public:
     inline Value& operator[](int i) { return at(i); }
 
 private:
-    ValueList(QList<Node*>& list);
+    ValueList(QList<Node*>& list, FileSpan span);
 };
 
 } // namespace ast

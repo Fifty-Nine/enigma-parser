@@ -24,8 +24,8 @@ struct Lexer::Impl
 {
     Impl(QIODevice *device_) :
         device(device_), stream(device_), 
-        token_start(1, 1, 0), 
-        token_end(1, 1, 0)
+        token_start(0, 1, 1), 
+        token_end(0, 1, 1)
     {
         stream.setCodec("UTF-8");
 

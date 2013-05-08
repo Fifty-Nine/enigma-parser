@@ -19,19 +19,19 @@ QList<Node*> convertList(const QList<Value*>& list)
 }
 } // namespace
 
-ValueList::ValueList(QList<Value*>& list) : 
-    List(NodeType::ValueList, convertList(list))
+ValueList::ValueList(QList<Value*>& list, FileSpan span) : 
+    List(NodeType::ValueList, convertList(list), span)
 {
     list.clear();
 }
 
-ValueList::ValueList(QList<Value*>&& list) : 
-    List(NodeType::ValueList, convertList(list))
+ValueList::ValueList(QList<Value*>&& list, FileSpan span) : 
+    List(NodeType::ValueList, convertList(list), span)
 {
 }
 
-ValueList::ValueList(QList<Node*>& list) : 
-    List(NodeType::ValueList, list)
+ValueList::ValueList(QList<Node*>& list, FileSpan span) : 
+    List(NodeType::ValueList, list, span)
 {
 }
 
@@ -43,7 +43,7 @@ ValueList *ValueList::clone() const
         copy << m_list[i]->clone();
     }
 
-    return new ValueList(copy);
+    return new ValueList(copy, location());
 }
 
 const Value& ValueList::at(int i) const

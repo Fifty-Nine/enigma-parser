@@ -11,7 +11,7 @@ namespace ast
 {
 
 Leaf::Leaf(std::unique_ptr<tokens::Token> token) : 
-    Value(NodeType::Value), 
+    Value(NodeType::Value, token->location()), 
     m_token(std::move(token)) 
 { 
     using namespace tokens;
@@ -42,7 +42,7 @@ void Leaf::accept(visitors::ConstVisitor& visitor) const
 }
 
 Leaf::Leaf(tokens::Token *token) : 
-    Value(NodeType::Value), 
+    Value(NodeType::Value, token->location()), 
     m_token(token)
 {
 }

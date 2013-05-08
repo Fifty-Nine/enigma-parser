@@ -12,7 +12,7 @@ namespace ast
 
 Assignment::Assignment(
     std::unique_ptr<Leaf> left, std::unique_ptr<Value> right) : 
-    Node(NodeType::Assignment),
+    Node(NodeType::Assignment, left->location() + right->location()),
     m_left(std::move(left)), m_right(std::move(right))
 {
     reparent();
@@ -62,7 +62,7 @@ Value& Assignment::at(int i)
 }
 
 Assignment::Assignment(Leaf *left, Value *right) : 
-    Node(NodeType::Assignment), 
+    Node(NodeType::Assignment, (left->location() + right->location())), 
     m_left(left), m_right(right)
 {
     reparent();

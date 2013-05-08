@@ -78,7 +78,10 @@ std::unique_ptr<ast::AssignmentList> FileReader::readFile(const QString& filenam
 
     g.dismiss();
 
-    return std::unique_ptr<ast::AssignmentList>(new ast::AssignmentList(nodes));
+    FileSpan span(FilePos(0, 1, 1), parser.currentPos());
+
+    return std::unique_ptr<ast::AssignmentList>(
+        new ast::AssignmentList(nodes, span));
 }
 
 void FileReader::setProgressBar(QProgressBar *bar_)

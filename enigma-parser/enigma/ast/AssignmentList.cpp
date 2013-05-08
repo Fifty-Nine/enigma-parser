@@ -23,19 +23,19 @@ QList<Node*> convertList(const QList<Assignment*>& list)
 }
 } // namespace
 
-AssignmentList::AssignmentList(QList<Assignment*>& list) : 
-    List(NodeType::AssignmentList, convertList(list))
+AssignmentList::AssignmentList(QList<Assignment*>& list, FileSpan span) : 
+    List(NodeType::AssignmentList, convertList(list), span)
 {
     list.clear();
 }
 
-AssignmentList::AssignmentList(QList<Assignment*>&& list) : 
-    List(NodeType::AssignmentList, convertList(list))
+AssignmentList::AssignmentList(QList<Assignment*>&& list, FileSpan span) : 
+    List(NodeType::AssignmentList, convertList(list), span)
 {
 }
 
-AssignmentList::AssignmentList(QList<Node*>& list) : 
-    List(NodeType::AssignmentList, list)
+AssignmentList::AssignmentList(QList<Node*>& list, FileSpan span) : 
+    List(NodeType::AssignmentList, list, span)
 {
 }
 
@@ -47,7 +47,7 @@ AssignmentList *AssignmentList::clone() const
         copy << m_list[i]->clone();
     }
 
-    return new AssignmentList(copy);
+    return new AssignmentList(copy, location());
 }
 
 void AssignmentList::accept(visitors::Visitor& visitor)

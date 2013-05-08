@@ -15,3 +15,4 @@ build/*
 Makefile*
 cscope.out
 doxy/*
+Config.pri

@@ -3,7 +3,7 @@
 
 #include <boost/noncopyable.hpp>
 #include <memory>
-#include "enigma/Location.h"
+#include "enigma/FilePos.h"
 
 namespace enigma
 {
@@ -11,8 +11,8 @@ namespace enigma
 class Lexer;
 namespace ast 
 { 
-	class Assignment;
-	class AssignmentList; 
+    class Assignment;
+    class AssignmentList; 
 }
 
 class Parser : boost::noncopyable
@@ -21,10 +21,10 @@ public:
     Parser(std::unique_ptr<Lexer> lexer);
     ~Parser();
 
-	Location currentPos() const;
+    FilePos currentPos() const;
 
     std::unique_ptr<ast::AssignmentList> parse();
-	std::unique_ptr<ast::Assignment> parseOne();
+    std::unique_ptr<ast::Assignment> parseOne();
 
 private:
     class Data;

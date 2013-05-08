@@ -6,7 +6,7 @@
 #include <QString>
 #include <QVariant>
 
-#include "enigma/Location.h"
+#include "enigma/FilePos.h"
 #include "enigma/util/Enumeration.h"
 
 namespace enigma
@@ -78,15 +78,15 @@ public:
 
     /*! Get the location of the token in the input file.
      *  \return The location. */
-    Location location() const { return m_loc; }
+    FilePos location() const { return m_loc; }
 
 protected:
-    Token(TokenType type, const Location& loc) : 
+    Token(TokenType type, const FilePos& loc) : 
         m_type(type), m_loc(loc) { }
 
 private:
     const TokenType m_type;
-    const Location m_loc;
+    const FilePos m_loc;
 };
 
 } // namespace tokens

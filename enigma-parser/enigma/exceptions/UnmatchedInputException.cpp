@@ -6,18 +6,18 @@ namespace exceptions
 {
 
 UnmatchedInputException::UnmatchedInputException(
-    const Location& loc, const QString& input) : 
+    const FilePos& loc, const QString& input) : 
     Exception(loc, buildMessage(loc, input))
 {
 }
 
 UnmatchedInputException *UnmatchedInputException::clone() const
 {
-	return new UnmatchedInputException(*this);
+    return new UnmatchedInputException(*this);
 }
 
 QString UnmatchedInputException::buildMessage(
-    const Location& loc, const QString& input)
+    const FilePos& loc, const QString& input)
 {
     QString format("Unmatched input \"%1\" at %2:%3");
 

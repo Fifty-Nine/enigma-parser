@@ -15,14 +15,14 @@ public:
     /*! Construct a new expected input exception.
      * \param [in] loc The location of the error.
      * \param [in] expected The possible expected options. */
-    ExpectedInputException(const Location& loc, const QStringList& expected);
+    ExpectedInputException(const FilePos& loc, const QStringList& expected);
 
     virtual void raise() { throw this; }
-	virtual ExpectedInputException *clone() const;
+    virtual ExpectedInputException *clone() const;
 
 private:
     static QString buildMessage(
-		const Location& loc, const QStringList& expected);
+        const FilePos& loc, const QStringList& expected);
 };
 
 } // namespace exceptions

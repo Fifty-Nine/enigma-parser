@@ -4,7 +4,7 @@
 
 #include <QString>
 
-#include "enigma/Location.h"
+#include "enigma/FilePos.h"
 
 namespace enigma
 {
@@ -21,20 +21,20 @@ public:
      * \param [in] loc The location of the error.
      * \param [in] message The description of the error.
      */
-    Exception(const Location& loc, const QString& message);
+    Exception(const FilePos& loc, const QString& message);
 
     virtual ~Exception();
 
     /*! Get the location where the error ocurred. */
-    virtual Location location() const;
+    virtual FilePos location() const;
 
     /*! Get the message associated with the error. */
     virtual QString what() const;
 
     virtual void raise() = 0;
-	virtual Exception *clone() const = 0;
+    virtual Exception *clone() const = 0;
 private:
-    Location m_loc;
+    FilePos m_loc;
     QString m_msg;
 };
 

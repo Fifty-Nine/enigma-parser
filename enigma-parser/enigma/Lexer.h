@@ -6,7 +6,7 @@
 #include <QChar>
 #include <QSet>
 
-#include "enigma/Location.h"
+#include "enigma/FilePos.h"
 
 class QIODevice;
 
@@ -26,7 +26,7 @@ public:
     std::unique_ptr<tokens::Token> nextToken();
 
     /*! Get the current location of the input stream. */
-    Location currentPos() const;
+    FilePos currentPos() const;
 
 protected:
     virtual std::unique_ptr<tokens::Token> lexIdentifiers();

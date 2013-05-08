@@ -1,7 +1,7 @@
 HEADERS +=\
     enigma/Date.h \
+    enigma/FilePos.h \ 
     enigma/Lexer.h \
-    enigma/Location.h \ 
     enigma/Parser.h \
     enigma/FileReader.h \
 

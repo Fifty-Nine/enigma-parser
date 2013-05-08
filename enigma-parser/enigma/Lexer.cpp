@@ -70,7 +70,7 @@ TokenPtr Lexer::nextToken()
         }
 
         QChar next = peek();
-        Location loc = currentPos();
+        FilePos loc = currentPos();
 
         if (next.isNull())
         {
@@ -113,16 +113,16 @@ TokenPtr Lexer::nextToken()
     }
 }
 
-Location Lexer::currentPos() const
+FilePos Lexer::currentPos() const
 {
-    return Location(d->pos, d->line, d->column);
+    return FilePos(d->pos, d->line, d->column);
 }
 
 /*! Lex any identifier types at the current position of the stream.
  * \return The lexed identifier token. */
 TokenPtr Lexer::lexIdentifiers()
 {
-    Location loc = currentPos();
+    FilePos loc = currentPos();
     QString id = "";
 
     do 
@@ -155,7 +155,7 @@ TokenPtr Lexer::lexIdentifiers()
  * \return The lexed token. */
 TokenPtr Lexer::lexStrings()
 {
-    Location loc = currentPos();
+    FilePos loc = currentPos();
     consume();
 
     QChar next = peek();
@@ -217,7 +217,7 @@ TokenPtr Lexer::lexStrings()
  * \return The lexed numeric token. */
 TokenPtr Lexer::lexNumeric()
 {
-    Location loc = currentPos();
+    FilePos loc = currentPos();
     QString str = "";
 
     if (peek() == '-')

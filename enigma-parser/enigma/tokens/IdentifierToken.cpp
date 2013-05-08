@@ -6,7 +6,7 @@ namespace tokens
 {
 
 IdentifierToken::IdentifierToken(
-    const QString& identifier, const Location& loc) : 
+    const QString& identifier, const FilePos& loc) : 
     StringToken(TokenType::Identifier, identifier, false, loc)
 {
 }

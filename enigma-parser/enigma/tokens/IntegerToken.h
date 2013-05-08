@@ -16,7 +16,7 @@ public:
      * \param [in] value The value.
      * \param [in] stringify True if the value is quoted, as in StringToken. 
      * \param [in] loc The location of the token in the input file. */
-    IntegerToken(long long value, bool stringify, const Location& loc);
+    IntegerToken(long long value, bool stringify, const FilePos& loc);
 
     /*! Get the token's integral value. */
     virtual QVariant value() const { return m_value; }

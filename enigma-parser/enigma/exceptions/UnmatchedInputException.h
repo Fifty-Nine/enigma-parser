@@ -15,15 +15,15 @@ class UnmatchedInputException : public Exception
 public:
     /*! Construct an exception with the given location and
      *  the specified unmatched input. 
-     *  \param [in] loc Location where the input was encountered.
+     *  \param [in] loc FilePos where the input was encountered.
      *  \param [in] input The unmatched input. */
-    UnmatchedInputException(const Location& loc, const QString& input);
+    UnmatchedInputException(const FilePos& loc, const QString& input);
 
     virtual void raise() { throw this; }
-	virtual UnmatchedInputException *clone() const;
+    virtual UnmatchedInputException *clone() const;
 
 private:
-    static QString buildMessage(const Location& loc, const QString& input);
+    static QString buildMessage(const FilePos& loc, const QString& input);
 };
 
 } // namespace exceptions

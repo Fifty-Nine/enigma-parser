@@ -5,7 +5,7 @@ namespace enigma
 namespace tokens
 {
 
-TagToken::TagToken(const QString& tag, bool stringify, const Location& loc) :
+TagToken::TagToken(const QString& tag, bool stringify, const FilePos& loc) :
     StringToken(TokenType::Tag, tag, stringify, loc)
 {
 }

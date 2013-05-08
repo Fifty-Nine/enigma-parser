@@ -7,7 +7,7 @@ namespace tokens
 {
 
 IntegerToken::IntegerToken(
-    long long value, bool stringify, const Location& loc) : 
+    long long value, bool stringify, const FilePos& loc) : 
     Token(TokenType::Integer, loc), m_value(value), m_stringify(stringify)
 {
 }

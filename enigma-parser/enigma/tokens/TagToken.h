@@ -12,7 +12,7 @@ namespace tokens
 class TagToken : public StringToken
 {
 public:
-    TagToken(const QString& tag, bool stringify, const Location& loc);
+    TagToken(const QString& tag, bool stringify, const FilePos& loc);
 
     using StringToken::setValue;
 

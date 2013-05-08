@@ -17,7 +17,7 @@ public:
      * \param[in] date The date.
      * \param[in] stringify True to quote the date, as in StringToken. 
      * \param [in] loc The location of the token in the input file. */
-    DateToken(const Date& date, bool stringify, const Location& loc);
+    DateToken(const Date& date, bool stringify, const FilePos& loc);
 
     /*! Get the date value of this token. 
      * \return The date. */

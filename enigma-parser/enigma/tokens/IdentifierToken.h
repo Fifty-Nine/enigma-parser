@@ -15,7 +15,7 @@ public:
     /*! Construct a new token initialized with the given name.
      * \param[in] identifier The identifier.
      * \param [in] loc The location of the token in the input file. */
-    IdentifierToken(const QString& identifier, const Location& loc);
+    IdentifierToken(const QString& identifier, const FilePos& loc);
 
     /*! Get the date value of this token. 
      * \return The date. */

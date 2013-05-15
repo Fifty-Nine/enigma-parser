@@ -37,14 +37,14 @@ public:
     { 
     }
     
-    Token *next() 
+    TokenPtr next() 
     {
         if (!m_next)
         {
             m_next = m_lexer->nextToken();
         }
 
-        return m_next.get();
+        return m_next;
     }
 
     bool atEnd() 
@@ -105,11 +105,11 @@ public:
 
     ast::ListPtr parseList()
     {
-        FilePos start = next()->location().first;
+        FilePos start = m_lexer->currentPos();
         consume(TokenType::LeftBrace);
 
         TokenPtr leaf = consume();
-        Token *peek = next();
+        TokenPtr peek = next();
 
         backtrack(std::move(leaf));
 
@@ -138,7 +138,7 @@ public:
         
         consume(TokenType::RightBrace);
 
-        FileSpan span(start, next()->location().first);
+        FileSpan span(start, m_lexer->currentPos());
         return ast::AssignmentListPtr(
             new ast::AssignmentList(nodes, span));
     }
@@ -154,7 +154,7 @@ public:
 
         consume(TokenType::RightBrace);
 
-        FileSpan span(start, next()->location().first);
+        FileSpan span(start, m_lexer->currentPos());
         return ast::ValueListPtr(new ast::ValueList(nodes, span));
     }
 

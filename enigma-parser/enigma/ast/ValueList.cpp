@@ -46,16 +46,6 @@ ValueList *ValueList::clone() const
     return new ValueList(copy, location());
 }
 
-const Value& ValueList::at(int i) const
-{
-    return static_cast<const Value&>(List::at(i));
-}
-
-Value& ValueList::at(int i) 
-{
-    return static_cast<Value&>(List::at(i));
-}
-
 void ValueList::accept(visitors::Visitor& visitor)
 {
     visitor.visit(*this);

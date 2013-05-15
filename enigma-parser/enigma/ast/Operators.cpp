@@ -37,20 +37,20 @@ public:
     {
         /*! \todo Throw a proper exception. */
         assert(node.m_stream_idx < node.count());
-        node[node.m_stream_idx++].accept(*this);
+        node[node.m_stream_idx++]->accept(*this);
     }
 
     virtual void visit(const AssignmentList& node)
     {
         /*! \todo Throw a proper exception. */
         assert(node.m_stream_idx < node.count());
-        node[node.m_stream_idx++].accept(*this);
+        node[node.m_stream_idx++]->accept(*this);
     }
 
     virtual void visit(const ValueList& node)
     {
         assert(node.m_stream_idx < node.count());
-        node[node.m_stream_idx++].accept(*this);
+        node[node.m_stream_idx++]->accept(*this);
     }
 
     QVariant value;

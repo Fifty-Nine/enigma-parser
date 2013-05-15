@@ -11,18 +11,11 @@ Node::~Node()
 {
 }
 
-const Node& Node::at(int idx) const 
+NodePtr Node::at_impl(int idx) const 
 {
-	(void)idx;
-	assert(false);
-	return *(const Node*)0;
-}
-
-Node& Node::at(int idx) 
-{
-	(void)idx;
-	assert(false);
-	return *(Node*)0;
+    (void)idx;
+    assert(false);
+    return NodePtr();
 }
 
 } // namespace ast

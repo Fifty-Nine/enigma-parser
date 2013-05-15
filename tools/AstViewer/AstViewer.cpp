@@ -18,6 +18,7 @@
 
 using namespace enigma;
 using enigma::ast::AssignmentList;
+using enigma::ast::AssignmentListPtr;
 
 class SearchVisitor : private enigma::visitors::ConstVisitor
 {
@@ -35,22 +36,22 @@ public:
 
     virtual void visit(const ast::Assignment& node)
     {
-        node.left().accept(*this);
-        node.right().accept(*this);
+        node.left()->accept(*this);
+        node.right()->accept(*this);
     }
 
     virtual void visit(const ast::AssignmentList& node) 
     {
         for (int i = 0; i < node.count(); ++i)
         {
-            node.at(i).accept(*this);
+            node.at(i)->accept(*this);
         }
     }
     virtual void visit(const ast::ValueList& node)
     {
         for (int i = 0; i < node.count(); ++i)
         {
-            node.at(i).accept(*this);
+            node.at(i)->accept(*this);
         }
     }
 
@@ -97,11 +98,11 @@ public:
         bar->setVisible(false);
     }
 
-    static ast::AssignmentList *readFile(Data *d, const QString& file)
+    static ast::AssignmentListPtr readFile(Data *d, const QString& file)
     {
         try
         {
-            return d->reader.readFile(file).release();
+            return d->reader.readFile(file);
         } 
         catch (exceptions::Exception& ex)
         {
@@ -116,10 +117,10 @@ public:
     AstViewer *parent;
     std::unique_ptr<Ui::AstViewer> ui;
     QFileDialog dialog;
-    QFutureWatcher<AssignmentList*> watcher;
+    QFutureWatcher<AssignmentListPtr> watcher;
     AstModel model;
     enigma::FileReader reader;
-    std::unique_ptr<AssignmentList> tree;
+    AssignmentListPtr tree;
     QProgressBar *bar;
 };
 
@@ -141,7 +142,7 @@ void AstViewer::on_actionOpen_activated()
 void AstViewer::on_actionCloseFile_activated()
 {
     d->model.setFile(NULL);
-    d->tree.reset(NULL);
+    d->tree.reset();
     d->ui->buttonSearch->setEnabled(false);
     d->ui->actionCloseFile->setEnabled(false);
 }
@@ -170,7 +171,7 @@ void AstViewer::on_buttonSearch_clicked()
 void AstViewer::fileSelected(const QString& filename)
 {
     d->model.setFile(NULL);
-    d->tree.reset(NULL);
+    d->tree.reset();
     d->ui->actionCloseFile->setEnabled(false);
     d->bar->setVisible(true);
     d->watcher.setFuture(QtConcurrent::run(&Data::readFile, d.get(), filename));
@@ -178,9 +179,9 @@ void AstViewer::fileSelected(const QString& filename)
 
 void AstViewer::fileLoaded()
 {
-    AssignmentList* tree = d->watcher.result();
-    d->model.setFile(tree);
-    d->tree.reset(tree);
+    AssignmentListPtr tree = d->watcher.result();
+    d->model.setFile(tree.get());
+    d->tree = tree;
     d->ui->buttonSearch->setEnabled(true);
     d->ui->actionCloseFile->setEnabled(true);
     d->bar->setVisible(false);

@@ -36,7 +36,7 @@ void Assignment::accept(visitors::ConstVisitor& visitor) const
     visitor.visit(*this);
 }
 
-const Value& Assignment::at(int i) const
+NodePtr Assignment::at_impl(int i) const
 {
     switch (i)
     {
@@ -44,19 +44,7 @@ const Value& Assignment::at(int i) const
     case 1: return right();
     default:
         assert(false);
-        return *(Value*)0;
-    }
-}
-
-Value& Assignment::at(int i)
-{
-    switch (i)
-    {
-    case 0: return left();
-    case 1: return right();
-    default:
-        assert(false);
-        return *(Value*)0;
+        return NodePtr();
     }
 }
 

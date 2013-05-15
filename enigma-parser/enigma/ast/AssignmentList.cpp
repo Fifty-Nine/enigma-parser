@@ -60,44 +60,18 @@ void AssignmentList::accept(visitors::ConstVisitor& visitor) const
     visitor.visit(*this);
 }
 
-Value* AssignmentList::operator[](const QString& key) 
+ValuePtr AssignmentList::operator[](const QString& key) const
 {
     for (int i = 0; i < count(); ++i)
     {
-        Assignment& node(at(i));
-
-        if (node.left().token().toString() == key)
+        AssignmentPtr node = at(i);
+        if (node->left()->token().toString() == key)
         {
-            return &node.right();
+            return node->right();
         }
     }
 
     return NULL;
-}
-
-const Value* AssignmentList::operator[](const QString& key) const
-{
-    for (int i = 0; i < count(); ++i)
-    {
-        const Assignment& node(at(i));
-
-        if (node.left().token().toString() == key)
-        {
-            return &node.right();
-        }
-    }
-
-    return NULL;
-}
-
-const Assignment& AssignmentList::at(int i) const
-{
-    return static_cast<const Assignment&>(List::at(i));
-}
-
-Assignment& AssignmentList::at(int i)
-{
-    return static_cast<Assignment&>(List::at(i));
 }
 
 } // namespace ast

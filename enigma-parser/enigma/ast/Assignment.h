@@ -22,17 +22,18 @@ public:
     virtual void accept(visitors::Visitor& visitor);
     virtual void accept(visitors::ConstVisitor& visitor) const;
 
-    const Leaf& left() const { return *m_left; }
-    Leaf& left() { return *m_left; }
-    const Value& right() const { return *m_right; }
-    Value& right() { return *m_right; }
+    LeafPtr left() const { return m_left; }
+    ValuePtr right() const { return m_right; }
 
     virtual int count() const { return 2; }
-    virtual const Value& at(int i) const;
-    virtual Value& at(int i); 
 
-    inline const Value& operator[](int i) const { return at(i); }
-    inline Value& operator[](int i) { return at(i); }
+    inline ValuePtr at(int i) const
+        { return std::static_pointer_cast<Value>(at_impl(i)); }
+    inline ValuePtr operator[](int i) const 
+        { return at(i); }
+
+protected:
+    virtual NodePtr at_impl(int idx) const;
 
 private:
     Assignment(Leaf *left, Value *right);

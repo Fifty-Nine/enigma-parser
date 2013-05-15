@@ -30,8 +30,8 @@ private:
     void visit(const enigma::ast::Assignment& node)
     {
         QString format = "%1 = %2";
-        format = format.arg(node.left().token().toString());
-        format = format.arg(ToString(node.right()));
+        format = format.arg(node.left()->token().toString());
+        format = format.arg(ToString(*node.right()));
 
         data = format;
     }

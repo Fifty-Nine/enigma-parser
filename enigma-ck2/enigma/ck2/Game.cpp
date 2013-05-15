@@ -30,7 +30,7 @@ Game::Game(const ast::AssignmentList *root) :
         for (AnalyzerList::iterator it = d->analyzers.begin(); 
             it != d->analyzers.end(); ++it )
         {
-            (*it)->Process(root->at(i));
+            (*it)->Process(*root->at(i));
         }
     }
 }

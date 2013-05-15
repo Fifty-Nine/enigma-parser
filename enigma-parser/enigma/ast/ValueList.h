@@ -20,11 +20,10 @@ public:
     virtual void accept(visitors::Visitor& visitor);
     virtual void accept(visitors::ConstVisitor& visitor) const;
 
-    virtual const Value& at(int i) const;
-    virtual Value& at(int i);
-
-    inline const Value& operator[](int i) const { return at(i); }
-    inline Value& operator[](int i) { return at(i); }
+    inline ValuePtr at(int i) const
+        { return std::static_pointer_cast<Value>(at_impl(i)); }
+    inline ValuePtr operator[](int i) const 
+        { return at(i); }
 
 private:
     ValueList(QList<NodePtr>& list, FileSpan span);

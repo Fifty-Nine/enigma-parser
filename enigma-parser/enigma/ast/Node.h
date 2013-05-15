@@ -47,7 +47,9 @@ static QString toString(Enum t)
 };
 typedef util::Enumeration<NodeTypeDef> NodeType;
 
-class Node : boost::noncopyable
+class Node : 
+    public std::enable_shared_from_this<Node>,
+    boost::noncopyable
 {
 public:
     virtual ~Node();
@@ -71,11 +73,8 @@ public:
     virtual void accept(visitors::ConstVisitor& visitor) const = 0;
 
     virtual int count() const { return 0; }
-    virtual const Node& at(int idx) const;
-    virtual Node& at(int idx);
-
-    inline const Node& operator[](int idx) const { return at(idx); }
-    inline Node& operator[](int idx) { return at(idx); }
+    inline NodePtr at(int idx) const { return at_impl(idx); }
+    inline NodePtr operator[](int idx) const { return at(idx); }
 
     class StreamVisitor;
     friend class StreamVisitor;
@@ -87,6 +86,8 @@ protected:
     Node(NodeType type, FileSpan span) : 
         m_type(type), m_span(span), 
         m_parent(NULL), m_parent_idx(-1), m_stream_idx(0) { }
+
+    virtual NodePtr at_impl(int idx) const;
 
 private:
     const NodeType m_type;

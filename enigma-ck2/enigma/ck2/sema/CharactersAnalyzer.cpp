@@ -20,30 +20,30 @@ CharactersAnalyzer::CharactersAnalyzer(Game& game) :
 
 void CharactersAnalyzer::Process(const ast::Assignment& node)
 {
-    if (node.left().toString() != "character")
+    if (node.left()->toString() != "character")
     {
         return;
     }
 
-    const ast::AssignmentList* right = 
-        dynamic_cast<const ast::AssignmentList*>(&node.right());
+    ast::AssignmentListPtr right = 
+        std::dynamic_pointer_cast<ast::AssignmentList>(node.right());
 
     /// \todo Throw exception.
     assert(right);
 
     for (int i = 0; i < right->count(); ++i)
     {
-        ProcessCharacter(right->at(i));
+        ProcessCharacter(*right->at(i));
     }
     
 }
 
 void CharactersAnalyzer::ProcessCharacter(const ast::Assignment& node)
 {
-    Character::Id id = node.left().value().toInt();
+    Character::Id id = node.left()->value().toInt();
 
     const ast::AssignmentList& table = 
-        *node.right().cast<ast::AssignmentList>();
+        *node.right()->cast<ast::AssignmentList>();
 
     Character *char_p(m_game.character(id));
 

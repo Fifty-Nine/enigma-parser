@@ -37,7 +37,7 @@ QModelIndex AstModel::index(
         return QModelIndex();
     }
 
-    return createIndex(row, column, (void*)&GetNode(parent)->at(row));
+    return createIndex(row, column, GetNode(parent)->at(row).get());
 }
 
 QModelIndex AstModel::parent(const QModelIndex& idx) const

@@ -17,10 +17,10 @@ public:
     virtual ~List();
     
     virtual int count() const { return m_list.count(); }
-    virtual const Node& at(int idx) const { return *m_list.at(idx); }
-    virtual Node& at(int idx) { return *m_list.at(idx); }
 
 protected:
+    virtual NodePtr at_impl(int idx) const { return m_list.at(idx); }
+
     List(NodeType type, QList<NodePtr>& list, FileSpan span);
     List(NodeType type, QList<NodePtr>&& list, FileSpan span);
 

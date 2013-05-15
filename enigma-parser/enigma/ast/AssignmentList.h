@@ -22,13 +22,12 @@ public:
     virtual void accept(visitors::Visitor& visitor);
     virtual void accept(visitors::ConstVisitor& visitor) const;
 
-    Value* operator[](const QString& key);
-    const Value* operator[](const QString& key) const;
-    virtual const Assignment& at(int i) const;
-    virtual Assignment& at(int i);
-    
-    inline const Assignment& operator[](int i) const { return at(i); }
-    inline Assignment& operator[](int i) { return at(i); }
+    ValuePtr operator[](const QString& key) const;
+   
+    inline AssignmentPtr at(int i) const
+        { return std::static_pointer_cast<Assignment>(at_impl(i)); }
+    inline AssignmentPtr operator[](int i) const 
+        { return at(i); }
 
 private:
     AssignmentList(QList<NodePtr>& list, FileSpan span);

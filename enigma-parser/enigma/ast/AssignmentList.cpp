@@ -12,9 +12,9 @@ namespace ast
 
 namespace
 {
-QList<Node*> convertList(const QList<Assignment*>& list)
+QList<NodePtr> convertList(const QList<AssignmentPtr>& list)
 {
-    QList<Node*> result;
+    QList<NodePtr> result;
     for (int i = 0; i < list.count(); ++i)
     {
         result.append( list[i] );
@@ -23,28 +23,28 @@ QList<Node*> convertList(const QList<Assignment*>& list)
 }
 } // namespace
 
-AssignmentList::AssignmentList(QList<Assignment*>& list, FileSpan span) : 
+AssignmentList::AssignmentList(QList<AssignmentPtr>& list, FileSpan span) : 
     List(NodeType::AssignmentList, convertList(list), span)
 {
     list.clear();
 }
 
-AssignmentList::AssignmentList(QList<Assignment*>&& list, FileSpan span) : 
+AssignmentList::AssignmentList(QList<AssignmentPtr>&& list, FileSpan span) : 
     List(NodeType::AssignmentList, convertList(list), span)
 {
 }
 
-AssignmentList::AssignmentList(QList<Node*>& list, FileSpan span) : 
+AssignmentList::AssignmentList(QList<NodePtr>& list, FileSpan span) : 
     List(NodeType::AssignmentList, list, span)
 {
 }
 
 AssignmentList *AssignmentList::clone() const
 {
-    QList<Node*> copy;
+    QList<NodePtr> copy;
     for (int i = 0; i < m_list.count(); ++i)
     {
-        copy << m_list[i]->clone();
+        copy << NodePtr( m_list[i]->clone() );
     }
 
     return new AssignmentList(copy, location());

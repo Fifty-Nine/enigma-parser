@@ -10,7 +10,7 @@ namespace enigma
 namespace ast
 {
 
-Leaf::Leaf(std::unique_ptr<tokens::Token> token) : 
+Leaf::Leaf(tokens::TokenPtr token) : 
     Value(NodeType::Value, token->location()), 
     m_token(std::move(token)) 
 { 

@@ -21,13 +21,13 @@ FileReader::~FileReader()
 {
 }
 
-std::unique_ptr<ast::AssignmentList> FileReader::readFile(const QString& filename)
+ast::AssignmentListPtr FileReader::readFile(const QString& filename)
 {
     std::unique_ptr<QFile> file(new QFile(filename));
 
     if (!file->open(QIODevice::ReadOnly))
     {
-        return std::unique_ptr<ast::AssignmentList>();
+        return ast::AssignmentListPtr();
     }
 
     qint64 pfactor = std::numeric_limits<int>::max() / file->size();
@@ -35,36 +35,17 @@ std::unique_ptr<ast::AssignmentList> FileReader::readFile(const QString& filenam
 
     Parser parser(std::move(lexer));
 
-    
-
-    QList<ast::Assignment*> nodes;
-    class Guard
-    {
-    public:
-        Guard(QList<ast::Assignment*>& nodes) : 
-            nodes(nodes), enabled(true) 
-        { }
-        ~Guard() 
-        { 
-            if (enabled) qDeleteAll(nodes);
-        }
-
-        void dismiss() { enabled = false; }
-
-    private:
-        QList<ast::Assignment*>& nodes;
-        bool enabled;
-    } g(nodes);
+    QList<ast::AssignmentPtr> nodes;
 
     emit progressChanged(0);
 
     while (true)
     {
-        std::unique_ptr<ast::Assignment> node = parser.parseOne();
+        ast::AssignmentPtr node = parser.parseOne();
     
         if (node)
         {
-            nodes.append(node.release());
+            nodes.append(node);
         }
         else
         {
@@ -76,11 +57,9 @@ std::unique_ptr<ast::AssignmentList> FileReader::readFile(const QString& filenam
 
     }
 
-    g.dismiss();
-
     FileSpan span(FilePos(0, 1, 1), parser.currentPos());
 
-    return std::unique_ptr<ast::AssignmentList>(
+    return ast::AssignmentListPtr(
         new ast::AssignmentList(nodes, span));
 }
 

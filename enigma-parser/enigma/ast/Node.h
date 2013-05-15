@@ -8,6 +8,7 @@
 
 #include "enigma/FilePos.h"
 #include "enigma/util/Enumeration.h"
+#include "enigma/ast/NodePtrs.h"
 
 namespace enigma
 {

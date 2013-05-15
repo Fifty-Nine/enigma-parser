@@ -3,6 +3,7 @@
 #pragma once
 
 #include "enigma/ast/Node.h"
+#include "enigma/tokens/TokenPtrs.h"
 
 namespace enigma
 {
@@ -22,7 +23,7 @@ namespace ast
 class Leaf : public Value
 {
 public:
-    Leaf(std::unique_ptr<tokens::Token> token);
+    Leaf(tokens::TokenPtr token);
     virtual ~Leaf();
 
     virtual Leaf *clone() const;
@@ -37,7 +38,7 @@ public:
 
 private:
     Leaf(tokens::Token* token);
-    const std::unique_ptr<tokens::Token> m_token;
+    const tokens::TokenPtr m_token;
 };
 
 } // namespace ast

@@ -23,6 +23,10 @@ typedef LiteralToken<TokenType::LeftBrace, '{'> LeftBraceToken;
 typedef LiteralToken<TokenType::RightBrace, '}'> RightBraceToken;
 typedef LiteralToken<TokenType::Equals, '='> EqualsToken;
 
+typedef std::shared_ptr<LeftBraceToken> LeftBraceTokenPtr;
+typedef std::shared_ptr<RightBraceToken> RightBraceTokenPtr;
+typedef std::shared_ptr<EqualsToken> EqualsTokenPtr;
+
 } // namespace tokens
 } // namespace enigma
 

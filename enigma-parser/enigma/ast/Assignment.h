@@ -15,7 +15,7 @@ class Assignment : public Node
 public:
     /*! Construct an assignment node with the given left- and right-hand 
      *  sides. */
-    Assignment(std::unique_ptr<Leaf> left, std::unique_ptr<Value> right);
+    Assignment(LeafPtr left, ValuePtr right);
     virtual ~Assignment();
 
     virtual Assignment *clone() const;
@@ -38,8 +38,8 @@ private:
     Assignment(Leaf *left, Value *right);
     void reparent();
 
-    std::unique_ptr<Leaf> m_left;
-    std::unique_ptr<Value> m_right;
+    LeafPtr m_left;
+    ValuePtr m_right;
 };
 
 } // namespace ast

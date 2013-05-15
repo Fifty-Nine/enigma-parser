@@ -29,8 +29,6 @@ QSet<TokenType> makeSet(TokenType type)
 }
 }
 
-typedef std::unique_ptr<Token> TokenPtr;
-
 class Parser::Data 
 {
 public:
@@ -105,7 +103,7 @@ public:
         }
     }
 
-    std::unique_ptr<ast::List> parseList()
+    ast::ListPtr parseList()
     {
         FilePos start = next()->location().first;
         consume(TokenType::LeftBrace);
@@ -115,7 +113,7 @@ public:
 
         backtrack(std::move(leaf));
 
-        std::unique_ptr<ast::List> result;
+        ast::ListPtr result;
 
         if (peek->type() == TokenType::Equals)
         {
@@ -129,38 +127,38 @@ public:
         return result;
     }
 
-    std::unique_ptr<ast::AssignmentList> parseAssignmentList(FilePos start)
+    ast::AssignmentListPtr parseAssignmentList(FilePos start)
     {
-        QList<ast::Assignment*> nodes;
+        QList<ast::AssignmentPtr> nodes;
 
         while (!atEnd() && (next()->type() != TokenType::RightBrace))
         {
-            nodes << parseAssignment().release();
+            nodes << parseAssignment();
         }
         
         consume(TokenType::RightBrace);
 
         FileSpan span(start, next()->location().first);
-        return std::unique_ptr<ast::AssignmentList>(
+        return ast::AssignmentListPtr(
             new ast::AssignmentList(nodes, span));
     }
 
-    std::unique_ptr<ast::ValueList> parseValueList(FilePos start)
+    ast::ValueListPtr parseValueList(FilePos start)
     {
-        QList<ast::Value*> nodes;
+        QList<ast::ValuePtr> nodes;
 
         while (!atEnd() && (next()->type() != TokenType::RightBrace))
         {
-            nodes << parseValue().release();
+            nodes << parseValue();
         }
 
         consume(TokenType::RightBrace);
 
         FileSpan span(start, next()->location().first);
-        return std::unique_ptr<ast::ValueList>(new ast::ValueList(nodes, span));
+        return ast::ValueListPtr(new ast::ValueList(nodes, span));
     }
 
-    std::unique_ptr<ast::Value> parseValue()
+    ast::ValuePtr parseValue()
     {
         if (next()->type() == TokenType::LeftBrace)
         {
@@ -170,7 +168,7 @@ public:
         return parseLeaf();
     }
 
-    std::unique_ptr<ast::Assignment> parseAssignment()
+    ast::AssignmentPtr parseAssignment()
     {
         QSet<TokenType> expected;
         expected << TokenType::Identifier;
@@ -180,23 +178,23 @@ public:
         expected << TokenType::String;
         expect(expected);
 
-        std::unique_ptr<ast::Leaf> left(parseLeaf());
+        ast::LeafPtr left(parseLeaf());
 
         consume(TokenType::Equals);
 
-        std::unique_ptr<ast::Value> right(parseValue());
+        ast::ValuePtr right(parseValue());
 
-        return std::unique_ptr<ast::Assignment>(
+        return ast::AssignmentPtr(
             new ast::Assignment(std::move(left), std::move(right)));
     }
 
-    std::unique_ptr<ast::Assignment> maybeParseAssignment()
+    ast::AssignmentPtr maybeParseAssignment()
     { 
         return (next() && (next()->type() != TokenType::RightBrace)) ? 
-            parseAssignment() : std::unique_ptr<ast::Assignment>();
+            parseAssignment() : ast::AssignmentPtr();
     }
 
-    std::unique_ptr<ast::Leaf> parseLeaf()
+    ast::LeafPtr parseLeaf()
     {
         QSet<TokenType> expected;
         expected << TokenType::Boolean;
@@ -207,7 +205,7 @@ public:
         expected << TokenType::String;
         expected << TokenType::Tag;
         TokenPtr tok = consume(expected);
-        return std::unique_ptr<ast::Leaf>(new ast::Leaf(std::move(tok)));
+        return ast::LeafPtr(new ast::Leaf(std::move(tok)));
     }
 
     std::unique_ptr<Lexer> m_lexer;
@@ -229,12 +227,12 @@ FilePos Parser::currentPos() const
     return d->m_lexer->currentPos();
 }
 
-std::unique_ptr<ast::AssignmentList> Parser::parse()
+ast::AssignmentListPtr Parser::parse()
 {
     return d->parseAssignmentList(d->m_lexer->currentPos());
 }
 
-std::unique_ptr<ast::Assignment> Parser::parseOne()
+ast::AssignmentPtr Parser::parseOne()
 {
     return d->maybeParseAssignment();
 }

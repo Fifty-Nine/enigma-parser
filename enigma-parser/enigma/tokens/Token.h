@@ -7,6 +7,7 @@
 #include <QVariant>
 
 #include "enigma/FilePos.h"
+#include "enigma/tokens/TokenPtrs.h"
 #include "enigma/util/Enumeration.h"
 
 namespace enigma

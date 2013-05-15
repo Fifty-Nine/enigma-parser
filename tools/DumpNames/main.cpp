@@ -15,11 +15,11 @@ int main(int argc, const char *argv[])
 
     QString file = argv[1];
     
-    enigma::ast::AssignmentList *root = NULL;
+    enigma::ast::AssignmentListPtr root;
     try
     {
         enigma::FileReader reader;
-        root = reader.readFile(file).release();
+        root = reader.readFile(file);
     }
     catch (enigma::exceptions::Exception& ex)
     {
@@ -31,7 +31,7 @@ int main(int argc, const char *argv[])
     }
     
     {
-        const enigma::ck2::Game g(root);
+        const enigma::ck2::Game g(root.get());
         QList<const enigma::ck2::Character*> chars(g.characters());
 
         foreach (const enigma::ck2::Character *c, chars)
@@ -39,8 +39,6 @@ int main(int argc, const char *argv[])
             printf("%s\n", qPrintable(c->birthName()));
         }
     }
-
-    delete root;
 }
 
 

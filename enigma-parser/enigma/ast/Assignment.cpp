@@ -10,8 +10,7 @@ namespace enigma
 namespace ast
 {
 
-Assignment::Assignment(
-    std::unique_ptr<Leaf> left, std::unique_ptr<Value> right) : 
+Assignment::Assignment( LeafPtr left, ValuePtr right) : 
     Node(NodeType::Assignment, left->location() + right->location()),
     m_left(std::move(left)), m_right(std::move(right))
 {

@@ -4,6 +4,7 @@
 #include <boost/noncopyable.hpp>
 #include <memory>
 #include "enigma/FilePos.h"
+#include "enigma/ast/NodePtrs.h"
 
 namespace enigma
 {
@@ -23,8 +24,8 @@ public:
 
     FilePos currentPos() const;
 
-    std::unique_ptr<ast::AssignmentList> parse();
-    std::unique_ptr<ast::Assignment> parseOne();
+    ast::AssignmentListPtr parse();
+    ast::AssignmentPtr parseOne();
 
 private:
     class Data;

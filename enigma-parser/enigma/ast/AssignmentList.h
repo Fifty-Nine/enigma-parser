@@ -15,8 +15,8 @@ class Value;
 class AssignmentList : public List
 {
 public:
-    AssignmentList(QList<Assignment*>& list, FileSpan span);
-    AssignmentList(QList<Assignment*>&& list, FileSpan span);
+    AssignmentList(QList<AssignmentPtr>& list, FileSpan span);
+    AssignmentList(QList<AssignmentPtr>&& list, FileSpan span);
  
     virtual AssignmentList *clone() const;
     virtual void accept(visitors::Visitor& visitor);
@@ -31,7 +31,7 @@ public:
     inline Assignment& operator[](int i) { return at(i); }
 
 private:
-    AssignmentList(QList<Node*>& list, FileSpan span);
+    AssignmentList(QList<NodePtr>& list, FileSpan span);
 };
 
 } // namespace ast

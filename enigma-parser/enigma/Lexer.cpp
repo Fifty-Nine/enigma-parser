@@ -18,8 +18,6 @@ namespace enigma
 
 using namespace tokens;
 
-typedef std::unique_ptr<Token> TokenPtr;
-
 struct Lexer::Impl
 {
     Impl(QIODevice *device_) :

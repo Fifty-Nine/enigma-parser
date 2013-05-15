@@ -21,10 +21,10 @@ public:
     virtual Node& at(int idx) { return *m_list.at(idx); }
 
 protected:
-    List(NodeType type, QList<Node*>& list, FileSpan span);
-    List(NodeType type, QList<Node*>&& list, FileSpan span);
+    List(NodeType type, QList<NodePtr>& list, FileSpan span);
+    List(NodeType type, QList<NodePtr>&& list, FileSpan span);
 
-    QList<Node*> m_list;
+    QList<NodePtr> m_list;
 
 private:
     void reparent();

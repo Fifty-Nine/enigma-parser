@@ -7,6 +7,7 @@
 #include <QSet>
 
 #include "enigma/FilePos.h"
+#include "enigma/tokens/TokenPtrs.h"
 
 class QIODevice;
 
@@ -23,15 +24,15 @@ public:
 
     /*! Read the next token from the input stream.
      * \return The next token, or a null pointer on end of file. */
-    std::unique_ptr<tokens::Token> nextToken();
+    tokens::TokenPtr nextToken();
 
     /*! Get the current location of the input stream. */
     FilePos currentPos() const;
 
 protected:
-    virtual std::unique_ptr<tokens::Token> lexIdentifiers();
-    virtual std::unique_ptr<tokens::Token> lexStrings();
-    virtual std::unique_ptr<tokens::Token> lexNumeric();
+    virtual tokens::TokenPtr lexIdentifiers();
+    virtual tokens::TokenPtr lexStrings();
+    virtual tokens::TokenPtr lexNumeric();
 
     QChar peek() const;
     void expect(const QSet<QChar>& expected);

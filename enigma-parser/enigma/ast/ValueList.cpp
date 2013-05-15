@@ -8,9 +8,9 @@ namespace ast
 
 namespace
 {
-QList<Node*> convertList(const QList<Value*>& list)
+QList<NodePtr> convertList(const QList<ValuePtr>& list)
 {
-    QList<Node*> result;
+    QList<NodePtr> result;
     for (int i = 0; i < list.count(); ++i)
     {
         result.append( list[i] );
@@ -19,28 +19,28 @@ QList<Node*> convertList(const QList<Value*>& list)
 }
 } // namespace
 
-ValueList::ValueList(QList<Value*>& list, FileSpan span) : 
+ValueList::ValueList(QList<ValuePtr>& list, FileSpan span) : 
     List(NodeType::ValueList, convertList(list), span)
 {
     list.clear();
 }
 
-ValueList::ValueList(QList<Value*>&& list, FileSpan span) : 
+ValueList::ValueList(QList<ValuePtr>&& list, FileSpan span) : 
     List(NodeType::ValueList, convertList(list), span)
 {
 }
 
-ValueList::ValueList(QList<Node*>& list, FileSpan span) : 
+ValueList::ValueList(QList<NodePtr>& list, FileSpan span) : 
     List(NodeType::ValueList, list, span)
 {
 }
 
 ValueList *ValueList::clone() const
 {
-    QList<Node*> copy;
+    QList<NodePtr> copy;
     for (int i = 0; i < m_list.count(); ++i)
     {
-        copy << m_list[i]->clone();
+        copy << NodePtr( m_list[i]->clone() );
     }
 
     return new ValueList(copy, location());

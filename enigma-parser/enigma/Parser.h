@@ -3,6 +3,7 @@
 
 #include <boost/noncopyable.hpp>
 #include <memory>
+#include "enigma/File.h"
 #include "enigma/FilePos.h"
 #include "enigma/ast/NodePtrs.h"
 
@@ -24,7 +25,8 @@ public:
 
     FilePos currentPos() const;
 
-    ast::AssignmentListPtr parse();
+    FileType parseHeader();
+    File parse();
     ast::AssignmentPtr parseOne();
 
 private:

@@ -38,6 +38,8 @@ ast::AssignmentListPtr FileReader::readFile(const QString& filename)
 
     emit progressChanged(0);
 
+    (void)parser.parseHeader();
+
     while (true)
     {
         ast::AssignmentPtr node = parser.parseOne();

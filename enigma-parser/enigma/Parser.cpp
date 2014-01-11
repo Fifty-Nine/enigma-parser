@@ -227,9 +227,30 @@ FilePos Parser::currentPos() const
     return d->m_lexer->currentPos();
 }
 
-ast::AssignmentListPtr Parser::parse()
+FileType Parser::parseHeader() {
+    TokenPtr t = d->next();
+    QString value = t->toString();
+
+    if (value == "CK2txt") { 
+        d->consume();
+        return FileType::CK2Txt;
+    }
+    else if (value == "CK2bin") { 
+        d->consume();
+        return FileType::CK2Bin; 
+    }
+    else {
+        // Assume text for backwards compatibility.
+        return FileType::CK2Txt;
+    }
+}
+
+File Parser::parse()
 {
-    return d->parseAssignmentList(d->m_lexer->currentPos());
+    return File { 
+        parseHeader(), 
+        d->parseAssignmentList(d->m_lexer->currentPos()) 
+    };
 }
 
 ast::AssignmentPtr Parser::parseOne()

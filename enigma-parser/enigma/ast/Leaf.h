@@ -2,6 +2,8 @@
 #define ENIGMA_AST_LEAF_H
 #pragma once
 
+#include <QVariant>
+
 #include "enigma/ast/Node.h"
 #include "enigma/tokens/TokenPtrs.h"
 

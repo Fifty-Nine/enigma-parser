@@ -22,8 +22,6 @@ public:
 
     ast::AssignmentListPtr readFile(const QString& file);
 
-    void setProgressBar(QProgressBar *bar);
-
 signals:
     void progressChanged(int progress);
 

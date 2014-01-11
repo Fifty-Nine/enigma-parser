@@ -2,7 +2,6 @@
 
 #include <QFile>
 #include <QFileInfo>
-#include <QProgressBar>
 #include <limits>
 
 #include "enigma/Lexer.h"
@@ -13,7 +12,7 @@ namespace enigma
 {
 
 FileReader::FileReader(QObject *parent) : 
-    QObject(parent), bar(NULL)
+    QObject(parent)
 {
 }
 
@@ -61,26 +60,6 @@ ast::AssignmentListPtr FileReader::readFile(const QString& filename)
 
     return ast::AssignmentListPtr(
         new ast::AssignmentList(nodes, span));
-}
-
-void FileReader::setProgressBar(QProgressBar *bar_)
-{
-    if (bar)
-    {
-        disconnect(bar);
-    }
-
-    bar = bar_;
-
-    if (bar)
-    {
-        bar->reset();
-        bar->setMinimum(0);
-        bar->setMaximum(std::numeric_limits<int>::max());
-        bar->setValue(0);
-
-        connect(this, SIGNAL(progressChanged(int)), bar, SLOT(setValue(int)));
-    }
 }
 
 } // namespace enigma

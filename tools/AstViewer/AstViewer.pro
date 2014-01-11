@@ -2,6 +2,8 @@ TEMPLATE = app
 
 include( ../../Common.pri )
 
+QT += gui widgets concurrent
+
 LIBS += -lenigma-parser
 CONFIG(debug, debug|release) { 
     DESTDIR=.

@@ -94,37 +94,50 @@ public:
         connect(&watcher, SIGNAL(finished()), parent, SLOT(fileLoaded()));
 
         ui->statusBar->addPermanentWidget(bar);
-        reader.setProgressBar(bar);
+
+        bar->reset();
+        bar->setMinimum(0);
+        bar->setMaximum(std::numeric_limits<int>::max());
+        bar->setValue(0);
+
+        connect(&reader, SIGNAL(progressChanged(int)), 
+                bar, SLOT(setValue(int)));
+
         bar->setVisible(false);
     }
 
-    static ast::AssignmentListPtr readFile(Data *d, const QString& file)
+    struct FileResult {
+        ast::AssignmentListPtr tree;
+        QString error;
+    };
+
+    static FileResult readFile(Data *d, const QString& file)
     {
         try
         {
-            return d->reader.readFile(file);
+            return FileResult { d->reader.readFile(file), QString() };
         } 
         catch (exceptions::Exception& ex)
         {
             QString format = "Error while parsing file \"%1\": %2";
             format = format.arg(file);
             format = format.arg(ex.what());
-            QMessageBox::information(d->parent, d->parent->tr("Error"), format);
+
+            return FileResult { NULL, format }; 
         }
-        return NULL;
     }
 
     AstViewer *parent;
     std::unique_ptr<Ui::AstViewer> ui;
     QFileDialog dialog;
-    QFutureWatcher<AssignmentListPtr> watcher;
+    QFutureWatcher<FileResult> watcher;
     AstModel model;
     enigma::FileReader reader;
     AssignmentListPtr tree;
     QProgressBar *bar;
 };
 
-AstViewer::AstViewer(QWidget *parent, Qt::WFlags flags) : 
+AstViewer::AstViewer(QWidget *parent, Qt::WindowFlags flags) : 
     QMainWindow(parent, flags), 
     d(new Data(this, new Ui::AstViewer))
 {
@@ -134,12 +147,12 @@ AstViewer::~AstViewer()
 {
 }
 
-void AstViewer::on_actionOpen_activated()
+void AstViewer::on_actionOpen_triggered()
 {
     d->dialog.show();
 }
 
-void AstViewer::on_actionCloseFile_activated()
+void AstViewer::on_actionCloseFile_triggered()
 {
     d->model.setFile(NULL);
     d->tree.reset();
@@ -179,9 +192,16 @@ void AstViewer::fileSelected(const QString& filename)
 
 void AstViewer::fileLoaded()
 {
-    AssignmentListPtr tree = d->watcher.result();
-    d->model.setFile(tree.get());
-    d->tree = tree;
+    Data::FileResult r = d->watcher.result();
+
+    if (!r.tree)
+    {
+        QMessageBox::information(this, tr("Error"), r.error);
+        return;
+    }
+
+    d->model.setFile(r.tree.get());
+    d->tree = r.tree;
     d->ui->buttonSearch->setEnabled(true);
     d->ui->actionCloseFile->setEnabled(true);
     d->bar->setVisible(false);

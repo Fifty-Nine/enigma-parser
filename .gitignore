@@ -1,0 +1,13 @@
+*.psess
+*.sdf
+*.sln
+*.vcxproj
+*.filters
+*.suo
+*.user
+*.vsp
+*.pdb
+*.exe
+*.ilk
+*.opensdf
+GeneratedFiles/*

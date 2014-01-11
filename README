@@ -1,0 +1,5 @@
+This is a work in progress. To get started compiling, edit the
+enigma.pro file to point to your installed boost include directory. 
+Next, use qmake to build the makefile and use make (or nmake on windows)
+to start the build.
+

@@ -8,6 +8,7 @@
 #include "enigma/tokens/BooleanToken.h"
 #include "enigma/tokens/DateToken.h"
 #include "enigma/tokens/DecimalToken.h"
+#include "enigma/tokens/FileStartToken.h"
 #include "enigma/tokens/IdentifierToken.h"
 #include "enigma/tokens/IntegerToken.h"
 #include "enigma/tokens/LiteralTokens.h"
@@ -150,6 +151,10 @@ TokenPtr Lexer::lexIdentifiers()
     {
         return TokenPtr(new BooleanToken(lower == "yes", false, 
             d->currentSpan()));
+    }
+    else if (lower == "ck2txt") 
+    {
+        return TokenPtr(new FileStartToken(d->currentSpan()));
     }
 
     if ((id.count() == 3) && ((id == "---") || (id == id.toUpper())))

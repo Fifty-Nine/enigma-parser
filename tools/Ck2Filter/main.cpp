@@ -2,7 +2,7 @@
 #include <QFile>
 #include <QString>
 #include <cstdio>
-#include "enigma/ast/AssignmentList.h"
+#include "enigma/ast/List.h"
 #include "enigma/exceptions/Exception.h"
 #include "enigma/File.h"
 #include "enigma/Lexer.h"
@@ -16,11 +16,11 @@ int main()
 
     std::unique_ptr<enigma::Lexer> lexer(new enigma::Lexer(std::move(input)));
     enigma::Parser parser(std::move(lexer));
-   
-    enigma::File f; 
+  
+    enigma::ast::ListPtr list;
     try
     {
-        f = parser.parse();
+        list = parser.parse();
     }
     catch (enigma::exceptions::Exception& ex)
     {
@@ -36,7 +36,7 @@ int main()
     output->write("CK2txt\r\n");
 
     enigma::visitors::PrettyPrinter pp(std::move(output));
-    f.tree->accept(pp);
+    list->accept(pp);
 }
 
 

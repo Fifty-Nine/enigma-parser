@@ -29,6 +29,7 @@ enum Enum
     LeftBrace,
     RightBrace,
     Equals,
+    FileStart
 };
 
 static QString toString(Enum t)
@@ -45,6 +46,7 @@ static QString toString(Enum t)
     case LeftBrace: return "LeftBrace";
     case RightBrace: return "RightBrace";
     case Equals: return "Equals";
+    case FileStart: return "FileStart";
     }
     return "Unknown";
 }
@@ -80,6 +82,9 @@ public:
     /*! Get the location of the token in the input file.
      *  \return The location. */
     FileSpan location() const { return m_loc; }
+
+    /*! Test whether this is a left brace token. */
+    virtual bool isLeftBrace() const { return false; }
 
 protected:
     Token(TokenType type, const FileSpan& loc) : 

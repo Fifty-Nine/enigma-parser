@@ -9,8 +9,6 @@
 namespace enigma
 {
 
-namespace ast { class AssignmentList; }
-
 class FileReader : public QObject
 {
     Q_OBJECT;
@@ -18,7 +16,7 @@ public:
     FileReader(QObject *parent=NULL);
     virtual ~FileReader();
 
-    ast::AssignmentListPtr readFile(const QString& file);
+    ast::ListPtr readFile(const QString& file);
 
 signals:
     void progressChanged(int progress);

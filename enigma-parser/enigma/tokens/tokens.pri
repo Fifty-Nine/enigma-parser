@@ -3,6 +3,7 @@ HEADERS += \
     enigma/tokens/BooleanToken.h \
     enigma/tokens/DateToken.h \
     enigma/tokens/DecimalToken.h \
+    enigma/tokens/FileStartToken.h \
     enigma/tokens/IdentifierToken.h \
     enigma/tokens/IntegerToken.h \
     enigma/tokens/LiteralTokens.h \
@@ -14,6 +15,7 @@ SOURCES += \
     enigma/tokens/BooleanToken.cpp \
     enigma/tokens/DateToken.cpp \
     enigma/tokens/DecimalToken.cpp \
+    enigma/tokens/FileStartToken.cpp \
     enigma/tokens/IdentifierToken.cpp \
     enigma/tokens/IntegerToken.cpp \
     enigma/tokens/TagToken.cpp \

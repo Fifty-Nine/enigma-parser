@@ -27,6 +27,9 @@ TokenSet makeSet(TokenType type)
     r << type;
     return r;
 }
+
+Parser::Callback default_cb = [](ast::NodePtr) { };
+
 }
 
 class Parser::Data 
@@ -102,10 +105,13 @@ public:
         }
     }
 
-    ast::ListPtr parseList()
+    ast::ListPtr parseList(Callback cb)
     {
         FilePos start = m_lexer->currentPos();
-        consume(TokenType::LeftBrace);
+        consume(TokenSet() 
+            << TokenType::LeftBrace
+            << TokenType::FileStart
+        );
 
         TokenPtr leaf = consume();
         TokenPtr peek = next();
@@ -116,23 +122,23 @@ public:
 
         if (peek->type() == TokenType::Equals)
         {
-            result = std::move(parseAssignmentList(start));
+            result = std::move(parseAssignmentList(start, cb));
         }
         else
         {
-            result = std::move(parseValueList(start));
+            result = std::move(parseValueList(start, cb));
         }
 
         return result;
     }
 
-    ast::AssignmentListPtr parseAssignmentList(FilePos start)
+    ast::AssignmentListPtr parseAssignmentList(FilePos start, Callback cb)
     {
         QList<ast::AssignmentPtr> nodes;
 
         while (!atEnd() && (next()->type() != TokenType::RightBrace))
         {
-            nodes << parseAssignment();
+            nodes << parseAssignment(cb);
         }
         
         consume(TokenType::RightBrace);
@@ -142,13 +148,13 @@ public:
             new ast::AssignmentList(nodes, span));
     }
 
-    ast::ValueListPtr parseValueList(FilePos start)
+    ast::ValueListPtr parseValueList(FilePos start, Callback cb)
     {
         QList<ast::ValuePtr> nodes;
 
         while (!atEnd() && (next()->type() != TokenType::RightBrace))
         {
-            nodes << parseValue();
+            nodes << parseValue(cb);
         }
 
         consume(TokenType::RightBrace);
@@ -157,17 +163,18 @@ public:
         return ast::ValueListPtr(new ast::ValueList(nodes, span));
     }
 
-    ast::ValuePtr parseValue()
+    ast::ValuePtr parseValue(Callback cb)
     {
-        if (next()->type() == TokenType::LeftBrace)
+        if ((next()->type() == TokenType::LeftBrace) || 
+            (next()->type() == TokenType::FileStart))
         {
-            return parseList();
+            return parseList(cb);
         }
 
-        return parseLeaf();
+        return parseLeaf(cb);
     }
 
-    ast::AssignmentPtr parseAssignment()
+    ast::AssignmentPtr parseAssignment(Callback cb)
     {
         expect(TokenSet()
             << TokenType::Identifier
@@ -177,23 +184,17 @@ public:
             << TokenType::String
         );
 
-        ast::LeafPtr left(parseLeaf());
+        ast::LeafPtr left(parseLeaf(cb));
 
         consume(TokenType::Equals);
 
-        ast::ValuePtr right(parseValue());
+        ast::ValuePtr right(parseValue(cb));
 
         return ast::AssignmentPtr(
             new ast::Assignment(std::move(left), std::move(right)));
     }
 
-    ast::AssignmentPtr maybeParseAssignment()
-    { 
-        return (next() && (next()->type() != TokenType::RightBrace)) ? 
-            parseAssignment() : ast::AssignmentPtr();
-    }
-
-    ast::LeafPtr parseLeaf()
+    ast::LeafPtr parseLeaf(Callback cb)
     {
         TokenPtr tok = consume(TokenSet() 
             << TokenType::Boolean
@@ -226,35 +227,14 @@ FilePos Parser::currentPos() const
     return d->m_lexer->currentPos();
 }
 
-FileType Parser::parseHeader() {
-    TokenPtr t = d->next();
-    QString value = t->toString();
-
-    if (value == "CK2txt") { 
-        d->consume();
-        return FileType::CK2Txt;
-    }
-    else if (value == "CK2bin") { 
-        d->consume();
-        return FileType::CK2Bin; 
-    }
-    else {
-        // Assume text for backwards compatibility.
-        return FileType::CK2Txt;
-    }
+ast::ListPtr Parser::parse()
+{
+    return parse(default_cb);
 }
 
-File Parser::parse()
+ast::ListPtr Parser::parse(Callback cb)
 {
-    return File { 
-        parseHeader(), 
-        d->parseAssignmentList(d->m_lexer->currentPos()) 
-    };
-}
-
-ast::AssignmentPtr Parser::parseOne()
-{
-    return d->maybeParseAssignment();
+    return d->parseList(cb);
 }
 
 } // namespace enigma

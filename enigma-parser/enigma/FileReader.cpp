@@ -20,13 +20,13 @@ FileReader::~FileReader()
 {
 }
 
-ast::AssignmentListPtr FileReader::readFile(const QString& filename)
+ast::ListPtr FileReader::readFile(const QString& filename)
 {
     std::unique_ptr<QFile> file(new QFile(filename));
 
     if (!file->open(QIODevice::ReadOnly))
     {
-        return ast::AssignmentListPtr();
+        return ast::ListPtr();
     }
 
     qint64 pfactor = std::numeric_limits<int>::max() / file->size();
@@ -38,30 +38,15 @@ ast::AssignmentListPtr FileReader::readFile(const QString& filename)
 
     emit progressChanged(0);
 
-    (void)parser.parseHeader();
-
-    while (true)
-    {
-        ast::AssignmentPtr node = parser.parseOne();
-    
-        if (node)
-        {
-            nodes.append(node);
-        }
-        else
-        {
-            emit progressChanged(std::numeric_limits<int>::max());
-            break;
-        }
-
+    auto callback = [&](ast::NodePtr) {
         emit progressChanged(pfactor * parser.currentPos().pos);
+    };
 
-    }
+    ast::ListPtr result = parser.parse(callback);
 
-    FileSpan span(FilePos(0, 1, 1), parser.currentPos());
+    emit progressChanged(std::numeric_limits<int>::max());
 
-    return ast::AssignmentListPtr(
-        new ast::AssignmentList(nodes, span));
+    return result;
 }
 
 } // namespace enigma

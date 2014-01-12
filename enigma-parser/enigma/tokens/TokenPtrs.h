@@ -32,6 +32,9 @@ typedef std::shared_ptr<StringToken> StringTokenPtr;
 class TagToken;
 typedef std::shared_ptr<TagToken> TagTokenPtr;
 
+class FileStartToken;
+typedef std::shared_ptr<FileStartToken> FileStartTokenPtr;
+
 } // namespace tokens
 } // namespace enigma;
 

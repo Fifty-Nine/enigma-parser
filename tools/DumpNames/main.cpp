@@ -15,7 +15,7 @@ int main(int argc, const char *argv[])
 
     QString file = argv[1];
     
-    enigma::ast::AssignmentListPtr root;
+    enigma::ast::ListPtr root;
     try
     {
         enigma::FileReader reader;
@@ -31,7 +31,8 @@ int main(int argc, const char *argv[])
     }
     
     {
-        const enigma::ck2::Game g(root.get());
+        const enigma::ck2::Game g(
+            dynamic_cast<enigma::ast::AssignmentList*>(root.get()));
         QList<const enigma::ck2::Character*> chars(g.characters());
 
         foreach (const enigma::ck2::Character *c, chars)

@@ -17,6 +17,7 @@ public:
 
     virtual LiteralToken *clone() const { return new LiteralToken(location()); }
     virtual QString toString() const { return QString(c); }
+    virtual bool isLeftBrace() const { return T == TokenType::LeftBrace; }
 };
 
 typedef LiteralToken<TokenType::LeftBrace, '{'> LeftBraceToken;

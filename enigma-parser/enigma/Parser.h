@@ -25,9 +25,9 @@ public:
 
     FilePos currentPos() const;
 
-    FileType parseHeader();
-    File parse();
-    ast::AssignmentPtr parseOne();
+    typedef std::function<void (ast::NodePtr)> Callback;
+    ast::ListPtr parse();
+    ast::ListPtr parse(Callback cb);
 
 private:
     class Data;

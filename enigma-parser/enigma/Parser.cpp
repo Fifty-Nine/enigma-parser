@@ -105,61 +105,15 @@ public:
         }
     }
 
-    ast::ListPtr parseList(Callback cb)
-    {
-        FilePos start = m_lexer->currentPos();
-        consume(TokenSet() 
-            << TokenType::LeftBrace
-            << TokenType::FileStart
-        );
-
-        TokenPtr leaf = consume();
-        TokenPtr peek = next();
-
-        backtrack(std::move(leaf));
-
-        ast::ListPtr result;
-
-        if (peek->type() == TokenType::Equals)
-        {
-            result = std::move(parseAssignmentList(start, cb));
-        }
-        else
-        {
-            result = std::move(parseValueList(start, cb));
-        }
-
-        return result;
-    }
-
-    ast::AssignmentListPtr parseAssignmentList(FilePos start, Callback cb)
-    {
-        QList<ast::AssignmentPtr> nodes;
-
-        while (!atEnd() && (next()->type() != TokenType::RightBrace))
-        {
-            nodes << parseAssignment(cb);
-        }
-        
-        consume(TokenType::RightBrace);
-
-        FileSpan span(start, m_lexer->currentPos());
-        ast::AssignmentListPtr result(
-            new ast::AssignmentList(nodes, span));
-        cb(result);
-        return result;
-    }
-
-    ast::ValueListPtr parseValueList(FilePos start, Callback cb)
+    ast::ValueListPtr parseValueList(Callback cb)
     {
         QList<ast::ValuePtr> nodes;
+        FilePos start = m_lexer->currentPos();
 
         while (!atEnd() && (next()->type() != TokenType::RightBrace))
         {
             nodes << parseValue(cb);
         }
-
-        consume(TokenType::RightBrace);
 
         FileSpan span(start, m_lexer->currentPos());
         ast::ValueListPtr result(new ast::ValueList(nodes, span));
@@ -172,28 +126,36 @@ public:
         if ((next()->type() == TokenType::LeftBrace) || 
             (next()->type() == TokenType::FileStart))
         {
-            return parseList(cb);
-        }
+            consume(TokenSet()
+                << TokenType::LeftBrace
+                << TokenType::FileStart
+            );
 
-        return parseLeaf(cb);
+            ast::ValuePtr result = parseValueList(cb);
+
+            consume(TokenType::RightBrace);
+
+            return result;
+        }
+       
+        ast::LeafPtr leaf = parseLeaf(cb);
+
+        if (ast::AssignmentPtr assignment = tryParseAssignment(leaf, cb))
+        {
+            return assignment;
+        }
+        return leaf;
     }
 
-    ast::AssignmentPtr parseAssignment(Callback cb)
+    ast::AssignmentPtr tryParseAssignment(ast::LeafPtr left, Callback cb)
     {
-        expect(TokenSet()
-            << TokenType::Identifier
-            << TokenType::Tag
-            << TokenType::Integer
-            << TokenType::Date
-            << TokenType::String
-        );
+        if (atEnd() || next()->type() != TokenType::Equals)
+        {
+            return ast::AssignmentPtr();
+        }
 
-        ast::LeafPtr left(parseLeaf(cb));
-
-        consume(TokenType::Equals);
-
+        consume();
         ast::ValuePtr right(parseValue(cb));
-
         ast::AssignmentPtr result(
             new ast::Assignment(std::move(left), std::move(right)));
         cb(result);
@@ -242,7 +204,7 @@ ast::ListPtr Parser::parse()
 
 ast::ListPtr Parser::parse(Callback cb)
 {
-    return d->parseList(cb);
+    return d->parseValueList(cb);
 }
 
 } // namespace enigma

@@ -10,7 +10,7 @@ namespace ast
 
 class Leaf;
 
-class Assignment : public Node
+class Assignment : public Value
 {
 public:
     /*! Construct an assignment node with the given left- and right-hand 

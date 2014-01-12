@@ -11,7 +11,7 @@ namespace ast
 {
 
 Assignment::Assignment( LeafPtr left, ValuePtr right) : 
-    Node(NodeType::Assignment, left->location() + right->location()),
+    Value(NodeType::Assignment, left->location() + right->location()),
     m_left(std::move(left)), m_right(std::move(right))
 {
     reparent();
@@ -49,7 +49,7 @@ NodePtr Assignment::at_impl(int i) const
 }
 
 Assignment::Assignment(Leaf *left, Value *right) : 
-    Node(NodeType::Assignment, (left->location() + right->location())), 
+    Value(NodeType::Assignment, (left->location() + right->location())), 
     m_left(left), m_right(right)
 {
     reparent();

@@ -5,7 +5,6 @@
 
 #include "enigma/ast/Leaf.h"
 #include "enigma/ast/Assignment.h"
-#include "enigma/ast/AssignmentList.h"
 #include "enigma/ast/ValueList.h"
 #include "enigma/visitors/Visitor.h"
 #include "enigma/tokens/Token.h"
@@ -34,13 +33,6 @@ public:
     }
 
     virtual void visit(const Assignment& node)
-    {
-        /*! \todo Throw a proper exception. */
-        assert(node.m_stream_idx < node.count());
-        node[node.m_stream_idx++]->accept(*this);
-    }
-
-    virtual void visit(const AssignmentList& node)
     {
         /*! \todo Throw a proper exception. */
         assert(node.m_stream_idx < node.count());

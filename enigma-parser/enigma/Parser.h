@@ -3,7 +3,6 @@
 
 #include <boost/noncopyable.hpp>
 #include <memory>
-#include "enigma/File.h"
 #include "enigma/FilePos.h"
 #include "enigma/ast/NodePtrs.h"
 
@@ -11,11 +10,6 @@ namespace enigma
 {
 
 class Lexer;
-namespace ast 
-{ 
-    class Assignment;
-    class AssignmentList; 
-}
 
 class Parser : boost::noncopyable
 {

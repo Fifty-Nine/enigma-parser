@@ -4,7 +4,6 @@
 #include <cstdio>
 #include "enigma/ast/ValueList.h"
 #include "enigma/exceptions/Exception.h"
-#include "enigma/File.h"
 #include "enigma/Lexer.h"
 #include "enigma/Parser.h"
 #include "enigma/visitors/PrettyPrinter.h"

@@ -1,7 +1,6 @@
 #include <QList>
 #include <QString>
 #include <cstdio>
-#include "enigma/ast/AssignmentList.h"
 #include "enigma/exceptions/Exception.h"
 #include "enigma/FileReader.h"
 #include "enigma/ck2/Game.h"

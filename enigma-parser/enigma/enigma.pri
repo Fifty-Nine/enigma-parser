@@ -3,7 +3,6 @@ HEADERS +=\
     enigma/FilePos.h \ 
     enigma/Lexer.h \
     enigma/Parser.h \
-    enigma/File.h \
     enigma/FileReader.h \
 
 SOURCES +=\

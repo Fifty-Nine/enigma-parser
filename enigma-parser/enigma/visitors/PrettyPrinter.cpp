@@ -6,7 +6,6 @@
 #include "enigma/ast/Leaf.h"
 #include "enigma/ast/Assignment.h"
 #include "enigma/ast/ValueList.h"
-#include "enigma/ast/AssignmentList.h"
 #include "enigma/tokens/Token.h"
 
 namespace enigma
@@ -65,32 +64,6 @@ void PrettyPrinter::visit(const ast::Assignment& node)
     d->m_out << "=";
     node.right()->accept(*this);
     d->m_out << "\r\n";
-}
-
-void PrettyPrinter::visit(const ast::AssignmentList& node)
-{
-    if (d->m_indent >= 0)
-    {
-        d->m_out << "\r\n";
-        d->indent();
-        d->m_out << "{\r\n";
-    }
-
-    ++d->m_indent;
-
-    for (int i = 0; i < node.count(); ++i)
-    {
-        d->indent();
-        node[i]->accept(*this);
-    }
-
-    --d->m_indent;
-    d->indent();
-
-    if (d->m_indent >= 0)
-    {
-        d->m_out << '}';
-    }
 }
 
 void PrettyPrinter::visit(const ast::ValueList& node)

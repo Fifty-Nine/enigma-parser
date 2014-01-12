@@ -7,7 +7,7 @@
 #include <QtConcurrentRun>
 
 #include "AstModel.h"
-#include "enigma/ast/AssignmentList.h"
+#include "enigma/ast/Assignment.h"
 #include "enigma/ast/Leaf.h"
 #include "enigma/ast/ValueList.h"
 #include "enigma/exceptions/Exception.h"
@@ -39,13 +39,6 @@ public:
         node.right()->accept(*this);
     }
 
-    virtual void visit(const ast::AssignmentList& node) 
-    {
-        for (int i = 0; i < node.count(); ++i)
-        {
-            node.at(i)->accept(*this);
-        }
-    }
     virtual void visit(const ast::ValueList& node)
     {
         for (int i = 0; i < node.count(); ++i)

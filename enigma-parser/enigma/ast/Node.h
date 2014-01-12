@@ -29,7 +29,6 @@ enum Enum
 {
     Value,
     Assignment,
-    AssignmentList,
     ValueList
 };
 
@@ -39,7 +38,6 @@ static QString toString(Enum t)
     {
     case Value: return "Value";
     case Assignment: return "Assignment";
-    case AssignmentList: return "AssignmentList";
     case ValueList: return "ValueList";
     }
     return "Unknown";

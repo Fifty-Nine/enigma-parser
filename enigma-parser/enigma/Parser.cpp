@@ -17,13 +17,13 @@ using namespace enigma::tokens;
 namespace enigma
 {
 
-
+typedef QSet<TokenType> TokenSet;
 
 namespace
 {
-QSet<TokenType> makeSet(TokenType type)
+TokenSet makeSet(TokenType type)
 {
-    QSet<TokenType> r;
+    TokenSet r;
     r << type;
     return r;
 }
@@ -63,7 +63,7 @@ public:
         return consume(makeSet(expected)); 
     }
 
-    TokenPtr consume(const QSet<TokenType>& expected = QSet<TokenType>())
+    TokenPtr consume(const TokenSet& expected = TokenSet())
     {
         expect(expected);
     
@@ -87,16 +87,15 @@ public:
         expect(makeSet(expected));
     }
 
-    void expect(const QSet<TokenType>& expected = QSet<TokenType>())
+    void expect(const TokenSet& expected = TokenSet())
     {
         if ((expected.count() > 0) && 
             !expected.contains(next()->type()))
         {
             QStringList names;
-            typedef QSet<TokenType>::const_iterator It;
-            for (It it = expected.begin(); it != expected.end(); ++it)
+            for (TokenType t : expected)
             {
-                names << it->toString().toLower();
+                names << t.toString().toLower();
             }
             throw exceptions::ExpectedInputException(
                 m_lexer->currentPos(), names);
@@ -170,13 +169,13 @@ public:
 
     ast::AssignmentPtr parseAssignment()
     {
-        QSet<TokenType> expected;
-        expected << TokenType::Identifier;
-        expected << TokenType::Tag;
-        expected << TokenType::Integer;
-        expected << TokenType::Date;
-        expected << TokenType::String;
-        expect(expected);
+        expect(TokenSet()
+            << TokenType::Identifier
+            << TokenType::Tag
+            << TokenType::Integer
+            << TokenType::Date
+            << TokenType::String
+        );
 
         ast::LeafPtr left(parseLeaf());
 
@@ -196,15 +195,15 @@ public:
 
     ast::LeafPtr parseLeaf()
     {
-        QSet<TokenType> expected;
-        expected << TokenType::Boolean;
-        expected << TokenType::Date;
-        expected << TokenType::Decimal;
-        expected << TokenType::Identifier;
-        expected << TokenType::Integer;
-        expected << TokenType::String;
-        expected << TokenType::Tag;
-        TokenPtr tok = consume(expected);
+        TokenPtr tok = consume(TokenSet() 
+            << TokenType::Boolean
+            << TokenType::Date
+            << TokenType::Decimal
+            << TokenType::Identifier
+            << TokenType::Integer
+            << TokenType::String
+            << TokenType::Tag
+        );
         return ast::LeafPtr(new ast::Leaf(std::move(tok)));
     }
 

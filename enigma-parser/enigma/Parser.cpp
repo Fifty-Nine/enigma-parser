@@ -197,12 +197,12 @@ FilePos Parser::currentPos() const
     return d->m_lexer->currentPos();
 }
 
-ast::ListPtr Parser::parse()
+ast::ValueListPtr Parser::parse()
 {
     return parse(default_cb);
 }
 
-ast::ListPtr Parser::parse(Callback cb)
+ast::ValueListPtr Parser::parse(Callback cb)
 {
     return d->parseValueList(cb);
 }

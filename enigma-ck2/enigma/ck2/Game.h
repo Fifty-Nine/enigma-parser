@@ -8,7 +8,7 @@
 
 namespace enigma {
 
-namespace ast { class AssignmentList; }
+namespace ast { class ValueList; }
 
 namespace ck2 {
 
@@ -18,7 +18,7 @@ class Game
 public:
     /*! Constructor.
      *  \param[in] root A pointer to the root node for the game. */
-    Game(const ast::AssignmentList *root);
+    Game(const ast::ValueList *root);
 
     /*! Destructor. */
     virtual ~Game();

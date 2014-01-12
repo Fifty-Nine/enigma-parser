@@ -25,6 +25,8 @@ public:
     inline ValuePtr operator[](int i) const 
         { return at(i); }
 
+    ValuePtr operator[](const QString& key) const;
+
 private:
     ValueList(QList<NodePtr>& list, FileSpan span);
 };

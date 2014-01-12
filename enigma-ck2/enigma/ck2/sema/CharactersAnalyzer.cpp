@@ -4,7 +4,7 @@
 #include <QVariant>
 
 #include "enigma/ast/Assignment.h"
-#include "enigma/ast/AssignmentList.h"
+#include "enigma/ast/ValueList.h"
 #include "enigma/ast/Leaf.h"
 #include "enigma/ck2/Character.h"
 #include "enigma/ck2/Game.h"
@@ -25,15 +25,20 @@ void CharactersAnalyzer::Process(const ast::Assignment& node)
         return;
     }
 
-    ast::AssignmentListPtr right = 
-        std::dynamic_pointer_cast<ast::AssignmentList>(node.right());
+    ast::ValueListPtr right = 
+        std::dynamic_pointer_cast<ast::ValueList>(node.right());
 
     /// \todo Throw exception.
     assert(right);
 
     for (int i = 0; i < right->count(); ++i)
     {
-        ProcessCharacter(*right->at(i));
+        ast::Assignment *assignment = dynamic_cast<ast::Assignment*>(
+            right->at(i).get());
+        if (assignment)
+        {
+            ProcessCharacter(*assignment);
+        }
     }
     
 }
@@ -42,8 +47,8 @@ void CharactersAnalyzer::ProcessCharacter(const ast::Assignment& node)
 {
     Character::Id id = node.left()->value().toInt();
 
-    const ast::AssignmentList& table = 
-        *node.right()->cast<ast::AssignmentList>();
+    const ast::ValueList& table = 
+        *node.right()->cast<ast::ValueList>();
 
     Character *char_p(m_game.character(id));
 

@@ -1,6 +1,7 @@
 #include "enigma/ck2/Game.h"
 
-#include "enigma/ast/AssignmentList.h"
+#include "enigma/ast/Assignment.h"
+#include "enigma/ast/ValueList.h"
 #include "enigma/ck2/sema/CharactersAnalyzer.h"
 
 namespace enigma {
@@ -20,17 +21,24 @@ struct Game::Data
     CharacterMap characters;
 };
 
-Game::Game(const ast::AssignmentList *root) : 
+Game::Game(const ast::ValueList *root) : 
     d( new Data )
 {
     d->analyzers << new sema::CharactersAnalyzer(*this);
+
+    root = dynamic_cast<ast::ValueList*>(root->at(0).get());
 
     for (int i = 0; i < root->count(); ++i)
     {
         for (AnalyzerList::iterator it = d->analyzers.begin(); 
             it != d->analyzers.end(); ++it )
         {
-            (*it)->Process(*root->at(i));
+            ast::Assignment *assignment = dynamic_cast<ast::Assignment*>(
+                root->at(i).get());
+            if (assignment)
+            {
+                (*it)->Process(*assignment);
+            }
         }
     }
 }

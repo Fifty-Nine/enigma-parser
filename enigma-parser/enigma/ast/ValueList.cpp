@@ -1,4 +1,8 @@
 #include "enigma/ast/ValueList.h"
+
+#include "enigma/ast/Assignment.h"
+#include "enigma/ast/Leaf.h"
+#include "enigma/tokens/Token.h"
 #include "enigma/visitors/Visitor.h"
 
 namespace enigma
@@ -54,6 +58,22 @@ void ValueList::accept(visitors::Visitor& visitor)
 void ValueList::accept(visitors::ConstVisitor& visitor) const
 {
     visitor.visit(*this);
+}
+
+ValuePtr ValueList::operator[](const QString& key) const
+{
+    for (int i = 0; i < count(); ++i)
+    {
+        ValuePtr node = at(i);
+        Assignment *assignment = node->cast<Assignment>();
+
+        if (assignment && assignment->left()->token().toString() == key)
+        {
+            return assignment->right();
+        }
+    }
+
+    return NULL;
 }
 
 } // namespace ast

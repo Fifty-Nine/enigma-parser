@@ -6,7 +6,7 @@
 
 #include "enigma/Lexer.h"
 #include "enigma/Parser.h"
-#include "enigma/ast/AssignmentList.h"
+#include "enigma/ast/ValueList.h"
 
 namespace enigma
 {
@@ -20,13 +20,13 @@ FileReader::~FileReader()
 {
 }
 
-ast::ListPtr FileReader::readFile(const QString& filename)
+ast::ValueListPtr FileReader::readFile(const QString& filename)
 {
     std::unique_ptr<QFile> file(new QFile(filename));
 
     if (!file->open(QIODevice::ReadOnly))
     {
-        return ast::ListPtr();
+        return ast::ValueListPtr();
     }
 
     qint64 pfactor = std::numeric_limits<int>::max() / file->size();
@@ -42,7 +42,7 @@ ast::ListPtr FileReader::readFile(const QString& filename)
         emit progressChanged(pfactor * parser.currentPos().pos);
     };
 
-    ast::ListPtr result = parser.parse(callback);
+    ast::ValueListPtr result = parser.parse(callback);
 
     emit progressChanged(std::numeric_limits<int>::max());
 

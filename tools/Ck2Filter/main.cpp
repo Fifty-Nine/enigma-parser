@@ -2,7 +2,7 @@
 #include <QFile>
 #include <QString>
 #include <cstdio>
-#include "enigma/ast/List.h"
+#include "enigma/ast/ValueList.h"
 #include "enigma/exceptions/Exception.h"
 #include "enigma/File.h"
 #include "enigma/Lexer.h"
@@ -17,7 +17,7 @@ int main()
     std::unique_ptr<enigma::Lexer> lexer(new enigma::Lexer(std::move(input)));
     enigma::Parser parser(std::move(lexer));
   
-    enigma::ast::ListPtr list;
+    enigma::ast::ValueListPtr list;
     try
     {
         list = parser.parse();

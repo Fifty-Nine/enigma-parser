@@ -16,7 +16,7 @@ public:
     FileReader(QObject *parent=NULL);
     virtual ~FileReader();
 
-    ast::ListPtr readFile(const QString& file);
+    ast::ValueListPtr readFile(const QString& file);
 
 signals:
     void progressChanged(int progress);

@@ -26,8 +26,8 @@ public:
     FilePos currentPos() const;
 
     typedef std::function<void (ast::NodePtr)> Callback;
-    ast::ListPtr parse();
-    ast::ListPtr parse(Callback cb);
+    ast::ValueListPtr parse();
+    ast::ValueListPtr parse(Callback cb);
 
 private:
     class Data;

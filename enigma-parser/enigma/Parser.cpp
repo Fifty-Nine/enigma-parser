@@ -144,8 +144,10 @@ public:
         consume(TokenType::RightBrace);
 
         FileSpan span(start, m_lexer->currentPos());
-        return ast::AssignmentListPtr(
+        ast::AssignmentListPtr result(
             new ast::AssignmentList(nodes, span));
+        cb(result);
+        return result;
     }
 
     ast::ValueListPtr parseValueList(FilePos start, Callback cb)
@@ -160,7 +162,9 @@ public:
         consume(TokenType::RightBrace);
 
         FileSpan span(start, m_lexer->currentPos());
-        return ast::ValueListPtr(new ast::ValueList(nodes, span));
+        ast::ValueListPtr result(new ast::ValueList(nodes, span));
+        cb(result);
+        return result;
     }
 
     ast::ValuePtr parseValue(Callback cb)
@@ -190,8 +194,10 @@ public:
 
         ast::ValuePtr right(parseValue(cb));
 
-        return ast::AssignmentPtr(
+        ast::AssignmentPtr result(
             new ast::Assignment(std::move(left), std::move(right)));
+        cb(result);
+        return result;
     }
 
     ast::LeafPtr parseLeaf(Callback cb)
@@ -205,7 +211,9 @@ public:
             << TokenType::String
             << TokenType::Tag
         );
-        return ast::LeafPtr(new ast::Leaf(std::move(tok)));
+        ast::LeafPtr result(new ast::Leaf(std::move(tok)));
+        cb(result);
+        return result;
     }
 
     std::unique_ptr<Lexer> m_lexer;

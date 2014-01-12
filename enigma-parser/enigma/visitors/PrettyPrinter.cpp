@@ -22,6 +22,7 @@ public:
         m_out(m_device.get()),
         m_indent(-1)
     {
+        m_device->setTextModeEnabled(false);
         m_out.setCodec("UTF-8");
     }
 
@@ -50,7 +51,7 @@ PrettyPrinter::PrettyPrinter(std::unique_ptr<QIODevice> output)
 
 PrettyPrinter::~PrettyPrinter()
 {
-    d->m_out << '\n';
+    d->m_out << "\r\n";
 }
 
 void PrettyPrinter::visit(const ast::Leaf& node)
@@ -63,16 +64,16 @@ void PrettyPrinter::visit(const ast::Assignment& node)
     node.left()->accept(*this);
     d->m_out << "=";
     node.right()->accept(*this);
-    d->m_out << "\n";
+    d->m_out << "\r\n";
 }
 
 void PrettyPrinter::visit(const ast::AssignmentList& node)
 {
     if (d->m_indent >= 0)
     {
-        d->m_out << '\n';
+        d->m_out << "\r\n";
         d->indent();
-        d->m_out << "{\n";
+        d->m_out << "{\r\n";
     }
 
     ++d->m_indent;
@@ -96,14 +97,14 @@ void PrettyPrinter::visit(const ast::ValueList& node)
 {
     if (d->m_indent >= 0)
     {
-        d->m_out << '\n';
+        d->m_out << "\r\n";
         d->indent();
         d->m_out << '{';
     }
 
     ++d->m_indent;
     d->indent();
-    d->m_out << '\n';
+    d->m_out << "\r\n";
     
     for (int i = 0; i < node.count(); ++i)
     {

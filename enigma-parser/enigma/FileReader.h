@@ -6,8 +6,6 @@
 #include <memory>
 #include "enigma/ast/NodePtrs.h"
 
-class QProgressBar;
-
 namespace enigma
 {
 
@@ -24,9 +22,6 @@ public:
 
 signals:
     void progressChanged(int progress);
-
-private:
-    QProgressBar *bar;
 };
 
 } // namespace enigma

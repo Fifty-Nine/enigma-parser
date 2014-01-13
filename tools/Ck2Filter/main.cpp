@@ -2,7 +2,7 @@
 #include <QFile>
 #include <QString>
 #include <cstdio>
-#include "enigma/ast/ValueList.h"
+#include "enigma/ast/List.h"
 #include "enigma/exceptions/Exception.h"
 #include "enigma/Lexer.h"
 #include "enigma/Parser.h"

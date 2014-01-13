@@ -6,7 +6,7 @@
 
 #include "enigma/Lexer.h"
 #include "enigma/Parser.h"
-#include "enigma/ast/ValueList.h"
+#include "enigma/ast/List.h"
 
 namespace enigma
 {

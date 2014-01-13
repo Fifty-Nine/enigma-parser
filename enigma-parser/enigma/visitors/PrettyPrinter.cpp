@@ -3,9 +3,9 @@
 #include <QIODevice>
 #include <QTextStream>
 
-#include "enigma/ast/Leaf.h"
 #include "enigma/ast/Assignment.h"
-#include "enigma/ast/ValueList.h"
+#include "enigma/ast/Leaf.h"
+#include "enigma/ast/List.h"
 #include "enigma/tokens/Token.h"
 
 namespace enigma

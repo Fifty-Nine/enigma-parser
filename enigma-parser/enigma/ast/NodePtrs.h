@@ -20,9 +20,6 @@ typedef std::shared_ptr<Value> ValuePtr;
 class Assignment;
 typedef std::shared_ptr<Assignment> AssignmentPtr;
 
-class List;
-typedef std::shared_ptr<List> ListPtr;
-
 class ValueList;
 typedef std::shared_ptr<ValueList> ValueListPtr;
 

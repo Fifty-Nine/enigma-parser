@@ -17,7 +17,6 @@
 #include "ui_AstViewer.h"
 
 using namespace enigma;
-using enigma::ast::ListPtr;
 
 class SearchVisitor : private enigma::visitors::ConstVisitor
 {
@@ -99,7 +98,7 @@ public:
     }
 
     struct FileResult {
-        ast::ListPtr tree;
+        ast::ValueListPtr tree;
         QString error;
     };
 
@@ -125,7 +124,7 @@ public:
     QFutureWatcher<FileResult> watcher;
     AstModel model;
     enigma::FileReader reader;
-    ast::ListPtr tree;
+    ast::ValueListPtr tree;
     QProgressBar *bar;
 };
 

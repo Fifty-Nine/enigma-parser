@@ -10,41 +10,26 @@ namespace enigma
 namespace ast
 {
 
-namespace
-{
-QList<NodePtr> convertList(const QList<ValuePtr>& list)
-{
-    QList<NodePtr> result;
-    for (int i = 0; i < list.count(); ++i)
-    {
-        result.append( list[i] );
-    }
-    return result;
-}
-} // namespace
-
 ValueList::ValueList(QList<ValuePtr>& list, FileSpan span) : 
-    List(NodeType::ValueList, convertList(list), span)
+    Value(NodeType::ValueList, span)
 {
-    list.clear();
+    std::swap(list, m_list);
+    reparent();
 }
 
 ValueList::ValueList(QList<ValuePtr>&& list, FileSpan span) : 
-    List(NodeType::ValueList, convertList(list), span)
+    Value(NodeType::ValueList, span),
+    m_list(std::move(list))
 {
-}
-
-ValueList::ValueList(QList<NodePtr>& list, FileSpan span) : 
-    List(NodeType::ValueList, list, span)
-{
+    reparent();
 }
 
 ValueList *ValueList::clone() const
 {
-    QList<NodePtr> copy;
+    QList<ValuePtr> copy;
     for (int i = 0; i < m_list.count(); ++i)
     {
-        copy << NodePtr( m_list[i]->clone() );
+        copy << ValuePtr( m_list[i]->clone() );
     }
 
     return new ValueList(copy, location());
@@ -74,6 +59,15 @@ ValuePtr ValueList::operator[](const QString& key) const
     }
 
     return NULL;
+}
+
+void ValueList::reparent()
+{
+    for (int i = 0; i < m_list.count(); ++i)
+    {
+        m_list[i]->setParent(this);
+        m_list[i]->setParentIdx(i);
+    }
 }
 
 } // namespace ast

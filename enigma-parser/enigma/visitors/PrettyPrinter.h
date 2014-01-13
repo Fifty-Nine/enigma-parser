@@ -21,7 +21,7 @@ public:
 
     virtual void visit(const ast::Leaf& node);
     virtual void visit(const ast::Assignment& node);
-    virtual void visit(const ast::ValueList& node);
+    virtual void visit(const ast::List& node);
 
 private:
     class Data;

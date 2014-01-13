@@ -1,5 +1,5 @@
-#ifndef ENIGMA_AST_VALUE_LIST_H
-#define ENIGMA_AST_VALUE_LIST_H
+#ifndef ENIGMA_AST_LIST_H
+#define ENIGMA_AST_LIST_H
 
 #include <QList>
 
@@ -12,14 +12,14 @@ namespace ast
 
 class Value;
 
-class ValueList : public Value 
+class List : public Value 
 {
 public:
-    ValueList(QList<ValuePtr>& list, FileSpan span);
-    ValueList(QList<ValuePtr>&& list, FileSpan span);
+    List(QList<ValuePtr>& list, FileSpan span);
+    List(QList<ValuePtr>&& list, FileSpan span);
 
     virtual int count() const { return m_list.count(); }
-    virtual ValueList *clone() const;
+    virtual List *clone() const;
     virtual void accept(visitors::Visitor& visitor);
     virtual void accept(visitors::ConstVisitor& visitor) const;
 
@@ -42,4 +42,4 @@ private:
 } // namespace ast
 } // namespace enigma
 
-#endif // ENIGMA_AST_VALUE_LIST_H
+#endif // ENIGMA_AST_LIST_H

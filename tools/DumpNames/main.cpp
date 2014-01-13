@@ -14,7 +14,7 @@ int main(int argc, const char *argv[])
 
     QString file = argv[1];
     
-    enigma::ast::ValueListPtr root;
+    enigma::ast::ListPtr root;
     try
     {
         enigma::FileReader reader;

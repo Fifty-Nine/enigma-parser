@@ -66,7 +66,7 @@ void PrettyPrinter::visit(const ast::Assignment& node)
     d->m_out << "\r\n";
 }
 
-void PrettyPrinter::visit(const ast::ValueList& node)
+void PrettyPrinter::visit(const ast::List& node)
 {
     if (d->m_indent >= 0)
     {

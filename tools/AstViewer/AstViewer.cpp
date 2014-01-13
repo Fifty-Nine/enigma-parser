@@ -38,7 +38,7 @@ public:
         node.right()->accept(*this);
     }
 
-    virtual void visit(const ast::ValueList& node)
+    virtual void visit(const ast::List& node)
     {
         for (int i = 0; i < node.count(); ++i)
         {
@@ -98,7 +98,7 @@ public:
     }
 
     struct FileResult {
-        ast::ValueListPtr tree;
+        ast::ListPtr tree;
         QString error;
     };
 
@@ -124,7 +124,7 @@ public:
     QFutureWatcher<FileResult> watcher;
     AstModel model;
     enigma::FileReader reader;
-    ast::ValueListPtr tree;
+    ast::ListPtr tree;
     QProgressBar *bar;
 };
 

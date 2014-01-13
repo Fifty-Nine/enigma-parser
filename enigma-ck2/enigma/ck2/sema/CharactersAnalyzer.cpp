@@ -25,8 +25,8 @@ void CharactersAnalyzer::Process(const ast::Assignment& node)
         return;
     }
 
-    ast::ValueListPtr right = 
-        std::dynamic_pointer_cast<ast::ValueList>(node.right());
+    ast::ListPtr right = 
+        std::dynamic_pointer_cast<ast::List>(node.right());
 
     /// \todo Throw exception.
     assert(right);
@@ -47,8 +47,8 @@ void CharactersAnalyzer::ProcessCharacter(const ast::Assignment& node)
 {
     Character::Id id = node.left()->value().toInt();
 
-    const ast::ValueList& table = 
-        *node.right()->cast<ast::ValueList>();
+    const ast::List& table = 
+        *node.right()->cast<ast::List>();
 
     Character *char_p(m_game.character(id));
 

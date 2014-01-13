@@ -20,8 +20,8 @@ typedef std::shared_ptr<Value> ValuePtr;
 class Assignment;
 typedef std::shared_ptr<Assignment> AssignmentPtr;
 
-class ValueList;
-typedef std::shared_ptr<ValueList> ValueListPtr;
+class List;
+typedef std::shared_ptr<List> ListPtr;
 
 } // namespace ast
 } // namespace enigma

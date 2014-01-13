@@ -104,7 +104,7 @@ public:
         }
     }
 
-    ast::ValueListPtr parseValueList(Callback cb)
+    ast::ListPtr parseList(Callback cb)
     {
         QList<ast::ValuePtr> nodes;
         FilePos start = m_lexer->currentPos();
@@ -115,7 +115,7 @@ public:
         }
 
         FileSpan span(start, m_lexer->currentPos());
-        ast::ValueListPtr result(new ast::ValueList(nodes, span));
+        ast::ListPtr result(new ast::List(nodes, span));
         cb(result);
         return result;
     }
@@ -130,7 +130,7 @@ public:
                 << TokenType::FileStart
             );
 
-            ast::ValuePtr result = parseValueList(cb);
+            ast::ValuePtr result = parseList(cb);
 
             consume(TokenType::RightBrace);
 
@@ -196,14 +196,14 @@ FilePos Parser::currentPos() const
     return d->m_lexer->currentPos();
 }
 
-ast::ValueListPtr Parser::parse()
+ast::ListPtr Parser::parse()
 {
     return parse(default_cb);
 }
 
-ast::ValueListPtr Parser::parse(Callback cb)
+ast::ListPtr Parser::parse(Callback cb)
 {
-    return d->parseValueList(cb);
+    return d->parseList(cb);
 }
 
 } // namespace enigma

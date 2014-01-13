@@ -10,21 +10,21 @@ namespace enigma
 namespace ast
 {
 
-ValueList::ValueList(QList<ValuePtr>& list, FileSpan span) : 
-    Value(NodeType::ValueList, span)
+List::List(QList<ValuePtr>& list, FileSpan span) : 
+    Value(NodeType::List, span)
 {
     std::swap(list, m_list);
     reparent();
 }
 
-ValueList::ValueList(QList<ValuePtr>&& list, FileSpan span) : 
-    Value(NodeType::ValueList, span),
+List::List(QList<ValuePtr>&& list, FileSpan span) : 
+    Value(NodeType::List, span),
     m_list(std::move(list))
 {
     reparent();
 }
 
-ValueList *ValueList::clone() const
+List *List::clone() const
 {
     QList<ValuePtr> copy;
     for (int i = 0; i < m_list.count(); ++i)
@@ -32,20 +32,20 @@ ValueList *ValueList::clone() const
         copy << ValuePtr( m_list[i]->clone() );
     }
 
-    return new ValueList(copy, location());
+    return new List(copy, location());
 }
 
-void ValueList::accept(visitors::Visitor& visitor)
+void List::accept(visitors::Visitor& visitor)
 {
     visitor.visit(*this);
 }
 
-void ValueList::accept(visitors::ConstVisitor& visitor) const
+void List::accept(visitors::ConstVisitor& visitor) const
 {
     visitor.visit(*this);
 }
 
-ValuePtr ValueList::operator[](const QString& key) const
+ValuePtr List::operator[](const QString& key) const
 {
     for (int i = 0; i < count(); ++i)
     {
@@ -61,7 +61,7 @@ ValuePtr ValueList::operator[](const QString& key) const
     return NULL;
 }
 
-void ValueList::reparent()
+void List::reparent()
 {
     for (int i = 0; i < m_list.count(); ++i)
     {

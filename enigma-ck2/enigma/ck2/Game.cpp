@@ -21,12 +21,12 @@ struct Game::Data
     CharacterMap characters;
 };
 
-Game::Game(const ast::ValueList *root) : 
+Game::Game(const ast::List *root) : 
     d( new Data )
 {
     d->analyzers << new sema::CharactersAnalyzer(*this);
 
-    root = dynamic_cast<ast::ValueList*>(root->at(0).get());
+    root = dynamic_cast<ast::List*>(root->at(0).get());
 
     for (int i = 0; i < root->count(); ++i)
     {

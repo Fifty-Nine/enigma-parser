@@ -16,7 +16,7 @@ int main()
     std::unique_ptr<enigma::Lexer> lexer(new enigma::Lexer(std::move(input)));
     enigma::Parser parser(std::move(lexer));
   
-    enigma::ast::ValueListPtr list;
+    enigma::ast::ListPtr list;
     try
     {
         list = parser.parse();

@@ -20,13 +20,13 @@ FileReader::~FileReader()
 {
 }
 
-ast::ValueListPtr FileReader::readFile(const QString& filename)
+ast::ListPtr FileReader::readFile(const QString& filename)
 {
     std::unique_ptr<QFile> file(new QFile(filename));
 
     if (!file->open(QIODevice::ReadOnly))
     {
-        return ast::ValueListPtr();
+        return ast::ListPtr();
     }
 
     qint64 pfactor = std::numeric_limits<int>::max() / file->size();
@@ -42,7 +42,7 @@ ast::ValueListPtr FileReader::readFile(const QString& filename)
         emit progressChanged(pfactor * parser.currentPos().pos);
     };
 
-    ast::ValueListPtr result = parser.parse(callback);
+    ast::ListPtr result = parser.parse(callback);
 
     emit progressChanged(std::numeric_limits<int>::max());
 
